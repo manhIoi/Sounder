@@ -11,6 +11,7 @@
 import React from 'react';
 import {LogBox, StatusBar, StyleSheet, View} from 'react-native';
 import dimensions from './src/constants/dimensions';
+import CurrentSong from './src/screens/CurrentSong/CurrentSong';
 import ListSongScreen from './src/screens/ListSongScreen/ListSongScreen';
 
 const App = () => {
@@ -23,7 +24,8 @@ const App = () => {
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      <ListSongScreen />
+      {/* <ListSongScreen /> */}
+      <CurrentSong />
     </View>
   );
 };
@@ -32,7 +34,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // paddingTop: dimensions.statusbarH,
   },
 });
 
