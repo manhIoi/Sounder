@@ -9,29 +9,21 @@
  */
 
 import React from 'react';
-import {
-  LogBox,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import rootColor from './src/constants/colors';
+import {LogBox, StatusBar, StyleSheet, View} from 'react-native';
 import dimensions from './src/constants/dimensions';
-import {rootFonts} from './src/constants/fonts';
-import HomeScreen from './src/screens/HomeScreen.tsx/HomeScreen';
-import SplashScreen from './src/screens/SplashScreen';
+import ListSongScreen from './src/screens/ListSongScreen/ListSongScreen';
 
 const App = () => {
   LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" />
-      <HomeScreen />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <ListSongScreen />
     </View>
   );
 };
@@ -40,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: dimensions.statusbarH,
+    // paddingTop: dimensions.statusbarH,
   },
 });
 

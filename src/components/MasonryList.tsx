@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
     zIndex: 1,
   },
   overlay: {

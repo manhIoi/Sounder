@@ -243,4 +243,79 @@ const mockAlbums = [
   },
 ];
 
-export {mockAlbums};
+const mockListSongs = [
+  {
+    type: 'default',
+    _id: '60b880eb20ba1617680df973',
+    url: 'https://res.cloudinary.com/dwi4pbjo6/video/upload/v1622472239/Music-App/AiMangCoDonDi_siwctz.mp3',
+    title: 'Ai mang cô đơn đi',
+    album: {
+      _id: '60b87ff3fe4a583ed0108b25',
+      name: 'Nghe nhiều nhất',
+      suggestion: '60b87dc4fe4a583ed0108b1f',
+    },
+    artwork: 'https://i.ytimg.com/vi/ilKg0DZrOwY/maxresdefault.jpg',
+    artist: 'K-ICM ft APJ',
+    __v: 0,
+  },
+  {
+    type: 'default',
+    _id: '60b8811c20ba1617680df974',
+    url: 'https://res.cloudinary.com/dwi4pbjo6/video/upload/v1622472247/Music-App/attention_tclxv4.mp3',
+    title: 'Attention',
+    album: {
+      _id: '60b87ff3fe4a583ed0108b25',
+      name: 'Nghe nhiều nhất',
+      suggestion: '60b87dc4fe4a583ed0108b1f',
+    },
+    artwork:
+      'https://4.bp.blogspot.com/-UAY0Egn_KhE/WP85kN7CPvI/AAAAAAAAA_o/VZpAnkiV1NAjmonEW_0ikOyuFBWrMGnYACLcB/s1600/charlie-puth-attention-868x680.png',
+    artist: 'Charlie Puth',
+    __v: 0,
+  },
+  {
+    type: 'default',
+    _id: '60b8814c20ba1617680df975',
+    url: 'https://res.cloudinary.com/dwi4pbjo6/video/upload/v1622472252/Music-App/bigcityboi_brio2x.mp3',
+    title: 'Bigcityboi',
+    album: {
+      _id: '60b87ff3fe4a583ed0108b25',
+      name: 'Nghe nhiều nhất',
+      suggestion: '60b87dc4fe4a583ed0108b1f',
+    },
+    artwork:
+      'https://giaiamnhacconghien.com/wp-content/uploads/2020/07/loi-bai-hat-big-city-boi.jpg',
+    artist: 'Binz',
+    __v: 0,
+  },
+  {
+    type: 'default',
+    _id: '60b883c020ba1617680df97e',
+    url: 'https://res.cloudinary.com/dwi4pbjo6/video/upload/v1622472269/Music-App/HoaHaiDuong_kndmxw.mp3',
+    title: 'Hoa hải đường',
+    album: {
+      _id: '60b87ff3fe4a583ed0108b25',
+      name: 'Nghe nhiều nhất',
+      suggestion: '60b87dc4fe4a583ed0108b1f',
+    },
+    artwork: 'https://i.ytimg.com/vi/Bhg-Gw953b0/maxresdefault.jpg?v=5f6b1502',
+    artist: 'Jack',
+    __v: 0,
+  },
+  {
+    type: 'default',
+    _id: '60b883ea20ba1617680df97f',
+    url: 'https://res.cloudinary.com/dwi4pbjo6/video/upload/v1622472272/Music-App/KhacBietToLon_exprzf.mp3',
+    title: 'Khác biệt to lớn',
+    album: {
+      _id: '60b87ff3fe4a583ed0108b25',
+      name: 'Nghe nhiều nhất',
+      suggestion: '60b87dc4fe4a583ed0108b1f',
+    },
+    artwork: 'https://i.ytimg.com/vi/KgOtLOUdCMQ/maxresdefault.jpg',
+    __v: 0,
+    artist: 'Trịnh Thăng Bình',
+  },
+];
+
+export {mockAlbums, mockListSongs};
