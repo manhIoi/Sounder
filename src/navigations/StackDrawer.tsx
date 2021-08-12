@@ -1,9 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Text, Animated} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../screens/HomeScreen.tsx/HomeScreen';
 import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
-import CurrentSong from '../screens/CurrentSong/CurrentSong';
 import HomeStack from './HomeStack';
 
 const Stack = createStackNavigator();
@@ -53,7 +51,6 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="HomeStack" component={HomeStack} />
         <Stack.Screen name="Test1" component={ListSongScreen} />
-        <Stack.Screen name="Test2" component={CurrentSong} />
       </Stack.Navigator>
     </Animated.View>
   );

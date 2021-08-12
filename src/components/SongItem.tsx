@@ -7,14 +7,19 @@ import {SongType} from '../types';
 const imgH = 75;
 const imgW = imgH;
 
-const SongItem = ({song}: {song: SongType}) => {
-  const handlePress = () => {
-    console.log('pressed');
-  };
+const SongItem = ({
+  song,
+  index,
+  handlePress,
+}: {
+  song: SongType;
+  index: number;
+  handlePress: (index: number) => void;
+}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={handlePress}
+      onPress={() => handlePress(index)}
       style={styles.container}>
       <Image source={{uri: song.artwork}} style={styles.img} />
       <View style={styles.wrapText}>

@@ -26,4 +26,9 @@ interface AlbumType {
   __v: number;
 }
 
-export type {SongType, AlbumType};
+interface ActionType {
+  type: String;
+  payload?: any;
+}
+
+export type {SongType, AlbumType, ActionType};

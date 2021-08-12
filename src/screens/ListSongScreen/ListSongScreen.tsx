@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useRef} from 'react';
 import {
   View,
@@ -8,22 +9,31 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import SongItem from '../../components/SongItem';
-import rootColor from '../../constants/colors';
-import dimensions, {spacing} from '../../constants/dimensions';
-import {rootFonts} from '../../constants/fonts';
 import {mockListSongs} from '../../constants/mockdata';
+import {setListTrack} from '../../redux/actions/listTrackAction';
 
 import styles, {imgBannerH, imgBannerW} from './styles';
 
 const ListSongScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const scale = scrollY.interpolate({
     inputRange: [0, imgBannerH],
     outputRange: [1, 0],
   });
 
-  const handlePress = () => {};
+  const handlePress = (index: number) => {
+    dispatch(
+      setListTrack({
+        listSong: mockListSongs,
+        songSelected: index,
+      }),
+    );
+    navigation.navigate('CurrentSongScreen');
+  };
 
   return (
     <Animated.ScrollView
@@ -59,7 +69,9 @@ const ListSongScreen = () => {
         scrollEnabled={false}
         keyExtractor={item => item._id}
         renderItem={({item, index}) => {
-          return <SongItem song={item} />;
+          return (
+            <SongItem song={item} index={index} handlePress={handlePress} />
+          );
         }}
       />
     </Animated.ScrollView>

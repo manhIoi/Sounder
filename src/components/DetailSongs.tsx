@@ -11,11 +11,13 @@ const DetailSongs = ({
   listSong,
   scrollX,
   progress,
+  defaultIndex,
   setIndexCurrentSong,
 }: {
   listSong: SongType[];
   scrollX: Animated.Value;
   progress: Animated.AnimatedDivision;
+  defaultIndex: number;
   setIndexCurrentSong: (index: number) => void;
 }) => {
   return (
@@ -26,6 +28,7 @@ const DetailSongs = ({
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        initialScrollIndex={defaultIndex}
         onMomentumScrollEnd={e => {
           setIndexCurrentSong(Math.ceil(e.nativeEvent.contentOffset.x / w));
         }}

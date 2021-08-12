@@ -11,15 +11,24 @@ import TrackPlayer, {Track} from 'react-native-track-player';
 import styles from './styles';
 import {SongType} from '../../types';
 import DetailSongs from '../../components/DetailSongs';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../redux/reducers';
+import {setListTrack} from '../../redux/actions/listTrackAction';
 
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
 
-const CurrentSong = () => {
+const CurrentSongScreen = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
+  const dispatch = useDispatch();
   const progress = Animated.divide(scrollX, dimensions.w);
-  const [indexCurrentSong, setIndexCurrentSong] = useState(2);
+  const listTrack = useSelector((state: RootState) => state.listTrack);
+  console.log(listTrack);
   const [isTrackPlayerInit, setIsTrackPlayerInit] = useState(false);
+
+  const setIndexCurrentSong = (index: number) => {
+    dispatch(setListTrack({songSelected: index}));
+  };
 
   useEffect(() => {
     if (mockListSongs.length > 0) {
@@ -39,7 +48,7 @@ const CurrentSong = () => {
         console.log(isInit);
         setIsTrackPlayerInit(true);
         if (isInit) {
-          await TrackPlayer.skip(indexCurrentSong);
+          await TrackPlayer.skip(listTrack.songSelected);
           TrackPlayer.play();
         }
       };
@@ -48,13 +57,13 @@ const CurrentSong = () => {
   }, []);
 
   useEffect(() => {
-    console.log('index current song', indexCurrentSong);
+    console.log('index current song', listTrack.songSelected);
     const moveSong = async () => {
-      await TrackPlayer.skip(indexCurrentSong);
+      await TrackPlayer.skip(listTrack.songSelected);
       TrackPlayer.play();
     };
     moveSong();
-  }, [indexCurrentSong]);
+  }, [listTrack.songSelected]);
 
   return (
     <View style={{flex: 1}}>
@@ -64,6 +73,7 @@ const CurrentSong = () => {
         scrollX={scrollX}
         listSong={mockListSongs}
         setIndexCurrentSong={setIndexCurrentSong}
+        defaultIndex={listTrack.songSelected}
       />
       <PlayerSong />
     </View>
@@ -90,4 +100,4 @@ const trackPlayerInit = async (listTrack: any) => {
   }
 };
 
-export default CurrentSong;
+export default CurrentSongScreen;
