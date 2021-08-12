@@ -1,153 +1,93 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, FlatList, Image, StyleSheet, Animated} from 'react-native';
 import Overlay from '../../components/Overlay';
+import PlayerSong from '../../components/PlayerSong';
 import rootColor from '../../constants/colors';
-import dimensions from '../../constants/dimensions';
+import dimensions, {rangeItemCurrentSong} from '../../constants/dimensions';
 import {rootFonts} from '../../constants/fonts';
 import {mockListSongs} from '../../constants/mockdata';
+import TrackPlayer, {Track} from 'react-native-track-player';
 
-const widthImg = dimensions.w * 0.7;
-const heightImg = widthImg;
-const containerH = dimensions.h * 0.6;
-const detailW = dimensions.w * 0.9;
-const detailH = heightImg * 1.3;
+import styles from './styles';
+import {SongType} from '../../types';
+import DetailSongs from '../../components/DetailSongs';
+
+const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
+  rangeItemCurrentSong;
 
 const CurrentSong = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const progress = Animated.divide(scrollX, dimensions.w);
+  const [indexCurrentSong, setIndexCurrentSong] = useState(2);
+  const [isTrackPlayerInit, setIsTrackPlayerInit] = useState(false);
+
+  useEffect(() => {
+    if (mockListSongs.length > 0) {
+      const startPlayer = async () => {
+        const tmp = await mockListSongs.map(song => {
+          return {
+            id: song._id,
+            url: song.url,
+            type: song.type,
+            album: 'My Album',
+            artist: song.artist,
+            artwork: song.artwork,
+            title: song.title,
+          };
+        });
+        let isInit = await trackPlayerInit(tmp);
+        console.log(isInit);
+        setIsTrackPlayerInit(true);
+        if (isInit) {
+          await TrackPlayer.skip(indexCurrentSong);
+          TrackPlayer.play();
+        }
+      };
+      startPlayer();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log('index current song', indexCurrentSong);
+    const moveSong = async () => {
+      await TrackPlayer.skip(indexCurrentSong);
+      TrackPlayer.play();
+    };
+    moveSong();
+  }, [indexCurrentSong]);
+
   return (
     <View style={{flex: 1}}>
       <Overlay scrollX={scrollX} />
-      <Animated.FlatList
-        data={mockListSongs}
-        keyExtractor={item => item._id}
-        horizontal
-        pagingEnabled
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
-                },
-              },
-            },
-          ],
-          {useNativeDriver: true},
-        )}
-        renderItem={({item, index}) => {
-          const inputRange = [
-            (index - 1) * dimensions.w,
-            index * dimensions.w,
-            (index + 1) * dimensions.w,
-          ];
-          const opacity = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, 1, 0],
-          });
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [50, 0, 20],
-          });
-          return (
-            <View
-              style={{
-                width: dimensions.w,
-                height: dimensions.h,
-                zIndex: 10,
-              }}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: containerH,
-                }}>
-                <Animated.Image
-                  source={{uri: item.artwork}}
-                  style={{
-                    width: widthImg,
-                    height: heightImg,
-                    opacity,
-                    transform: [{translateY}],
-                  }}
-                />
-              </View>
-            </View>
-          );
-        }}
+      <DetailSongs
+        progress={progress}
+        scrollX={scrollX}
+        listSong={mockListSongs}
+        setIndexCurrentSong={setIndexCurrentSong}
       />
-      <Animated.View
-        style={{
-          width: detailW,
-          height: detailH,
-          backgroundColor: '#fff',
-          position: 'absolute',
-          top: (containerH - widthImg / 2) / 2,
-          zIndex: -1,
-          left: (dimensions.w - detailW) / 2,
-          transform: [
-            {
-              rotateY: progress.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: ['0deg', '90deg', '180deg'],
-              }),
-            },
-          ],
-        }}></Animated.View>
-      <View
-        style={{
-          width: detailW,
-          height: detailH,
-          position: 'absolute',
-          top: (containerH - widthImg / 2) / 2,
-          zIndex: -1,
-          left: (dimensions.w - detailW) / 2,
-        }}>
-        {mockListSongs.map((item, index) => {
-          const inputRange = [
-            Math.floor((index - 0.5) * dimensions.w),
-            Math.floor(index * dimensions.w),
-            Math.floor((index + 0.5) * dimensions.w),
-          ];
-
-          const opacity = scrollX.interpolate({
-            inputRange,
-            outputRange: [0, 1, 0],
-          });
-          return (
-            <Animated.View
-              style={{
-                position: 'absolute',
-                top: (heightImg * 3) / 4,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                opacity,
-              }}>
-              <Text
-                style={{
-                  fontFamily: rootFonts.bold,
-                  color: rootColor.primaryColor,
-                  fontSize: 30,
-                }}>
-                {item.artist}
-              </Text>
-              <Text
-                style={{
-                  color: rootColor.grayTextColor,
-                  fontSize: 20,
-                  fontFamily: rootFonts.regular,
-                }}>
-                {item.title}
-              </Text>
-            </Animated.View>
-          );
-        })}
-      </View>
+      <PlayerSong />
     </View>
   );
+};
+
+const trackPlayerInit = async (listTrack: any) => {
+  if (listTrack.length > 0) {
+    await TrackPlayer.setupPlayer();
+    console.log('Player is ready');
+    await TrackPlayer.add(listTrack);
+    // await TrackPlayer.updateOptions({
+    //   stopWithApp: true,
+    //   capabilities: [
+    //     TrackPlayer.CAPABILITY_PLAY,
+    //     TrackPlayer.CAPABILITY_PAUSE,
+    //     TrackPlayer.CAPABILITY_JUMP_FORWARD,
+    //     TrackPlayer.CAPABILITY_JUMP_BACKWARD,
+    //     TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+    //     TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+    //   ],
+    // });
+    return true;
+  }
 };
 
 export default CurrentSong;

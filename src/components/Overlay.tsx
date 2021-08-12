@@ -6,7 +6,11 @@ import {mockListSongs} from '../constants/mockdata';
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
 
-const Overlay = props => {
+interface OverlayProps {
+  scrollX: Animated.Value;
+}
+
+const Overlay = (props: OverlayProps) => {
   const {scrollX} = props;
   return (
     <>

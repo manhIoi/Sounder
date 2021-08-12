@@ -13,6 +13,8 @@ import {LogBox, StatusBar, StyleSheet, View} from 'react-native';
 import dimensions from './src/constants/dimensions';
 import CurrentSong from './src/screens/CurrentSong/CurrentSong';
 import ListSongScreen from './src/screens/ListSongScreen/ListSongScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import MainDrawer from './src/navigations/MainDrawer';
 
 const App = () => {
   LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -24,8 +26,9 @@ const App = () => {
         backgroundColor="transparent"
         barStyle="dark-content"
       />
-      {/* <ListSongScreen /> */}
-      <CurrentSong />
+      <NavigationContainer>
+        <MainDrawer />
+      </NavigationContainer>
     </View>
   );
 };

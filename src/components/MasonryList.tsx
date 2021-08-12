@@ -7,9 +7,11 @@ import {mockAlbums} from '../constants/mockdata';
 import * as Animatable from 'react-native-animatable';
 import MasonryItem from './MasonryItem';
 import TouchableScale from 'react-native-touchable-scale';
+import {useNavigation} from '@react-navigation/native';
 
 const MasonryList = () => {
   const ref = useRef<Masonry>();
+  const navigation = useNavigation();
   useEffect(() => {
     if (ref?.current) {
       const items = mockAlbums.map((item, index) => {
@@ -31,6 +33,7 @@ const MasonryList = () => {
       columns={2}
       renderItem={item => (
         <TouchableScale
+          onPress={() => navigation.navigate('ListSongScreen')}
           activeScale={0.95}
           style={[styles.containerItem, {height: item.height}]}>
           <View style={styles.overlay} />
