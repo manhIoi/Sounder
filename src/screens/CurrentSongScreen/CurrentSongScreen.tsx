@@ -6,7 +6,7 @@ import rootColor from '../../constants/colors';
 import dimensions, {rangeItemCurrentSong} from '../../constants/dimensions';
 import {rootFonts} from '../../constants/fonts';
 import {mockListSongs} from '../../constants/mockdata';
-import TrackPlayer, {Track} from 'react-native-track-player';
+import TrackPlayer, {useProgress, Capability} from 'react-native-track-player';
 
 import styles from './styles';
 import {SongType} from '../../types';
@@ -14,20 +14,48 @@ import DetailSongs from '../../components/DetailSongs';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {setListTrack} from '../../redux/actions/listTrackAction';
+import {setCurrentSong} from '../../redux/actions/currentSongAction';
 
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
 
 const CurrentSongScreen = () => {
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [sliderValue, setSliderValue] = useState(0);
+
+  const currentSong = useSelector((state: RootState) => state.currentSong);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const {position, duration} = useProgress(250);
   const dispatch = useDispatch();
   const progress = Animated.divide(scrollX, dimensions.w);
   const listTrack = useSelector((state: RootState) => state.listTrack);
-  console.log(listTrack);
   const [isTrackPlayerInit, setIsTrackPlayerInit] = useState(false);
 
   const setIndexCurrentSong = (index: number) => {
     dispatch(setListTrack({songSelected: index}));
+  };
+
+  const slidingStarted = () => {
+    setIsSeeking(true);
+  };
+
+  const slidingCompleted = async (value: number) => {
+    await TrackPlayer.seekTo(value * duration);
+    setIsSeeking(false);
+  };
+
+  const onButtonPressed = () => {
+    console.log(currentSong);
+
+    if (currentSong.isPlaying) {
+      console.log('playing');
+      TrackPlayer.pause();
+      dispatch(setCurrentSong({isPlaying: false}));
+    } else {
+      console.log('pause');
+      TrackPlayer.play();
+      dispatch(setCurrentSong({isPlaying: true}));
+    }
   };
 
   useEffect(() => {
@@ -65,6 +93,13 @@ const CurrentSongScreen = () => {
     moveSong();
   }, [listTrack.songSelected]);
 
+  useEffect(() => {
+    if (!isSeeking && position && duration) {
+      setSliderValue(position / duration);
+      dispatch(setCurrentSong({position, duration}));
+    }
+  }, [position, duration]);
+
   return (
     <View style={{flex: 1}}>
       <Overlay scrollX={scrollX} />
@@ -75,7 +110,12 @@ const CurrentSongScreen = () => {
         setIndexCurrentSong={setIndexCurrentSong}
         defaultIndex={listTrack.songSelected}
       />
-      <PlayerSong />
+      <PlayerSong
+        sliderValue={sliderValue}
+        slidingStarted={slidingStarted}
+        slidingCompleted={slidingCompleted}
+        onButtonPressed={onButtonPressed}
+      />
     </View>
   );
 };
@@ -85,17 +125,15 @@ const trackPlayerInit = async (listTrack: any) => {
     await TrackPlayer.setupPlayer();
     console.log('Player is ready');
     await TrackPlayer.add(listTrack);
-    // await TrackPlayer.updateOptions({
-    //   stopWithApp: true,
-    //   capabilities: [
-    //     TrackPlayer.CAPABILITY_PLAY,
-    //     TrackPlayer.CAPABILITY_PAUSE,
-    //     TrackPlayer.CAPABILITY_JUMP_FORWARD,
-    //     TrackPlayer.CAPABILITY_JUMP_BACKWARD,
-    //     TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
-    //     TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-    //   ],
-    // });
+    await TrackPlayer.updateOptions({
+      stopWithApp: true,
+      capabilities: [
+        Capability.Play,
+        Capability.Pause,
+        Capability.SkipToNext,
+        Capability.SkipToPrevious,
+      ],
+    });
     return true;
   }
 };

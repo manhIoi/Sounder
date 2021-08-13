@@ -11,6 +11,9 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from 'react-native-slider';
 import {rootFonts} from '../constants/fonts';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/reducers';
+import convertTime from '../utils/convertTime';
 
 const heightContainer =
   dimensions.h -
@@ -20,20 +23,42 @@ const widthPlayer = rangeItemCurrentSong.detailW;
 const heightPlayer = (heightContainer * 3) / 4;
 const btnPlaySize = 75;
 
-const PlayerSong = () => {
+const PlayerSong = ({
+  sliderValue,
+  slidingStarted,
+  slidingCompleted,
+  onButtonPressed,
+}: {
+  sliderValue: number;
+  slidingStarted: () => void;
+  slidingCompleted: (value: number) => void;
+  onButtonPressed: () => void;
+}) => {
+  const currentSong = useSelector((state: RootState) => state.currentSong);
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <View style={{flex: 1, padding: spacing.normal}}>
           <Slider
+            minimumValue={0}
+            maximumValue={1}
+            value={sliderValue}
             maximumTrackTintColor="#eaeaea"
             trackStyle={{height: 3}}
             thumbStyle={styles.thumb}
             minimumTrackTintColor={rootColor.middleColor}
+            onSlidingStart={slidingStarted}
+            onSlidingComplete={slidingCompleted}
           />
           <View style={styles.detailTime}>
-            <Text style={styles.timeText}>0:00</Text>
-            <Text style={styles.timeText}>3:45</Text>
+            <Text style={styles.timeText}>
+              {/* {convertTime(currentSong.position)} */}
+              {convertTime(sliderValue * currentSong.duration)}
+            </Text>
+            <Text style={styles.timeText}>
+              {convertTime(currentSong.duration)}
+            </Text>
           </View>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center', flex: 2}}>
@@ -46,13 +71,17 @@ const PlayerSong = () => {
               />
             </TouchableScale>
 
-            <TouchableScale style={styles.btnPlay}>
+            <TouchableScale style={styles.btnPlay} onPress={onButtonPressed}>
               <LinearGradient
                 start={{x: 0, y: 0}}
                 end={{x: 1, y: 0}}
                 style={styles.gradientBtnPlay}
                 colors={rootColor.colorsGradient}>
-                <Feather name="play" size={30} color={rootColor.whiteColor} />
+                <Feather
+                  name={currentSong.isPlaying ? 'pause' : 'play'}
+                  size={30}
+                  color={rootColor.whiteColor}
+                />
               </LinearGradient>
             </TouchableScale>
 
