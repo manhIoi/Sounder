@@ -6,7 +6,11 @@ import rootColor from '../../constants/colors';
 import dimensions, {rangeItemCurrentSong} from '../../constants/dimensions';
 import {rootFonts} from '../../constants/fonts';
 import {mockListSongs} from '../../constants/mockdata';
-import TrackPlayer, {useProgress, Capability} from 'react-native-track-player';
+import TrackPlayer, {
+  useProgress,
+  Capability,
+  Event,
+} from 'react-native-track-player';
 
 import styles from './styles';
 import {SongType} from '../../types';
@@ -73,14 +77,37 @@ const CurrentSongScreen = () => {
           };
         });
         let isInit = await trackPlayerInit(tmp);
-        console.log(isInit);
         setIsTrackPlayerInit(true);
         if (isInit) {
           await TrackPlayer.skip(listTrack.songSelected);
           TrackPlayer.play();
         }
       };
+      const listener = TrackPlayer.addEventListener(
+        [Event.PlaybackTrackChanged],
+        async data => {
+          console.log(data);
+          if (data.track >= 0) {
+            if (data.nextTrack) {
+              const trackIndex = await TrackPlayer.getCurrentTrack();
+              setIndexCurrentSong(trackIndex);
+            } else {
+              if (listTrack.listSong.length === 1) {
+                await TrackPlayer.seekTo(0);
+                console.log('replay song');
+              } else {
+                setIndexCurrentSong(0);
+                console.log('move first song after end quence');
+              }
+            }
+          }
+        },
+      );
       startPlayer();
+
+      return () => {
+        listener.remove();
+      };
     }
   }, []);
   // [] rerender list tracking is change
@@ -107,6 +134,10 @@ const CurrentSongScreen = () => {
     }
   }, [position, duration]);
 
+  useEffect(() => {
+    console.log(listTrack);
+  }, [listTrack]);
+
   return (
     <View style={{flex: 1}}>
       <Overlay scrollX={scrollX} listSong={listTrack.listSong} />
@@ -116,6 +147,7 @@ const CurrentSongScreen = () => {
         listSong={listTrack.listSong}
         setIndexCurrentSong={setIndexCurrentSong}
         defaultIndex={listTrack.songSelected}
+        currentIndex={listTrack.songSelected}
       />
       <PlayerSong
         sliderValue={sliderValue}

@@ -39,7 +39,7 @@ const PlayerSong = ({
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <View style={{flex: 1, padding: spacing.normal}}>
+        <View style={{width: '100%'}}>
           <Slider
             minimumValue={0}
             maximumValue={1}
@@ -61,38 +61,37 @@ const PlayerSong = ({
             </Text>
           </View>
         </View>
-        <View style={{justifyContent: 'center', alignItems: 'center', flex: 2}}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableScale style={styles.btnPlay} activeScale={0.7}>
-              <MaterialCommunityIcons
-                name="skip-previous"
-                size={40}
-                color={rootColor.secondaryColor}
-              />
-            </TouchableScale>
 
-            <TouchableScale style={styles.btnPlay} onPress={onButtonPressed}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                style={styles.gradientBtnPlay}
-                colors={rootColor.colorsGradient}>
-                <Feather
-                  name={currentSong.isPlaying ? 'pause' : 'play'}
-                  size={30}
-                  color={rootColor.whiteColor}
-                />
-              </LinearGradient>
-            </TouchableScale>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableScale style={styles.btnPlay} activeScale={0.7}>
+            <MaterialCommunityIcons
+              name="skip-previous"
+              size={40}
+              color={rootColor.secondaryColor}
+            />
+          </TouchableScale>
 
-            <TouchableScale activeScale={0.7} style={styles.btnPlay}>
-              <MaterialCommunityIcons
-                name="skip-next"
-                size={40}
-                color={rootColor.primaryColor}
+          <TouchableScale style={styles.btnPlay} onPress={onButtonPressed}>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.gradientBtnPlay}
+              colors={rootColor.colorsGradient}>
+              <Feather
+                name={currentSong.isPlaying ? 'pause' : 'play'}
+                size={30}
+                color={rootColor.whiteColor}
               />
-            </TouchableScale>
-          </View>
+            </LinearGradient>
+          </TouchableScale>
+
+          <TouchableScale activeScale={0.7} style={styles.btnPlay}>
+            <MaterialCommunityIcons
+              name="skip-next"
+              size={40}
+              color={rootColor.primaryColor}
+            />
+          </TouchableScale>
         </View>
       </View>
     </View>
@@ -111,6 +110,9 @@ const styles = StyleSheet.create({
     width: widthPlayer,
     height: heightPlayer,
     backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.normal * 2,
   },
   btnPlay: {
     width: btnPlaySize,

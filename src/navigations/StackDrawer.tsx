@@ -1,6 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import {View, Text, Animated} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
 import HomeStack from './HomeStack';
 
@@ -48,7 +51,11 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
           },
         ],
       }}>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}>
         <Stack.Screen name="HomeStack" component={HomeStack} />
         <Stack.Screen name="Test1" component={ListSongScreen} />
       </Stack.Navigator>
