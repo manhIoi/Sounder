@@ -2,19 +2,21 @@ import React from 'react';
 import {View, Text, Animated, StyleSheet} from 'react-native';
 import {rangeItemCurrentSong} from '../constants/dimensions';
 import {mockListSongs} from '../constants/mockdata';
+import {SongType} from '../types';
 
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
 
 interface OverlayProps {
   scrollX: Animated.Value;
+  listSong: SongType[];
 }
 
 const Overlay = (props: OverlayProps) => {
-  const {scrollX} = props;
+  const {scrollX, listSong} = props;
   return (
     <>
-      {mockListSongs.map((item, index) => {
+      {listSong.map((item, index) => {
         const inputRange = [(index - 0.7) * w, index * w, (index + 0.7) * w];
 
         const opacity = scrollX.interpolate({

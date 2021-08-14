@@ -59,9 +59,9 @@ const CurrentSongScreen = () => {
   };
 
   useEffect(() => {
-    if (mockListSongs.length > 0) {
+    if (listTrack.listSong.length > 0) {
       const startPlayer = async () => {
-        const tmp = await mockListSongs.map(song => {
+        const tmp = await listTrack.listSong.map((song: SongType) => {
           return {
             id: song._id,
             url: song.url,
@@ -83,11 +83,18 @@ const CurrentSongScreen = () => {
       startPlayer();
     }
   }, []);
+  // [] rerender list tracking is change
 
   useEffect(() => {
     console.log('index current song', listTrack.songSelected);
     const moveSong = async () => {
-      await TrackPlayer.skip(listTrack.songSelected);
+      console.log(listTrack.songSelected);
+      if (isTrackPlayerInit) {
+        await TrackPlayer.skip(listTrack.songSelected);
+      } else {
+        console.log('track have not init');
+        // set loading wait track initing
+      }
       TrackPlayer.play();
     };
     moveSong();
@@ -102,11 +109,11 @@ const CurrentSongScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      <Overlay scrollX={scrollX} />
+      <Overlay scrollX={scrollX} listSong={listTrack.listSong} />
       <DetailSongs
         progress={progress}
         scrollX={scrollX}
-        listSong={mockListSongs}
+        listSong={listTrack.listSong}
         setIndexCurrentSong={setIndexCurrentSong}
         defaultIndex={listTrack.songSelected}
       />

@@ -4,6 +4,7 @@ import {Image} from 'react-native-animatable';
 import rootColor from '../constants/colors';
 import {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
+import {AlbumType} from '../types';
 
 const MasonryItem = ({
   image,
@@ -21,7 +22,19 @@ const MasonryItem = ({
         <Text numberOfLines={2} style={styles.title}>
           {title}
         </Text>
-        <Text style={styles.normalText}>{artist}</Text>
+        <View>
+          <View
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              height: 10,
+              bottom: 0,
+              backgroundColor: rootColor.primaryColor,
+              zIndex: -1,
+            }}></View>
+          <Text style={styles.normalText}>{artist}</Text>
+        </View>
       </View>
     </>
   );

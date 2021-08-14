@@ -24,5 +24,8 @@ const rangeItemCurrentSong = {
   detailH: widthImg * 1.3,
 };
 
+const headerH = dimensions.h * 0.07;
+
 export default dimensions;
 export {spacing, rangeItemCurrentSong};
+export {headerH};

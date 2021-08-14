@@ -8,13 +8,15 @@ import * as Animatable from 'react-native-animatable';
 import MasonryItem from './MasonryItem';
 import TouchableScale from 'react-native-touchable-scale';
 import {useNavigation} from '@react-navigation/native';
+import {AlbumType, SongType} from '../types';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-const MasonryList = () => {
+const MasonryList = ({albums}: {albums: AlbumType[]}) => {
   const ref = useRef<Masonry>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   useEffect(() => {
     if (ref?.current) {
-      const items = mockAlbums.map((item, index) => {
+      const items = albums.map((item, index) => {
         return {
           height:
             (dimensions.w / 2) * Math.max(0, Math.random()) + dimensions.w / 2,
@@ -22,18 +24,21 @@ const MasonryList = () => {
           name: item.name,
           artist: item.artist ? item.artist : 'Nhiều ca sĩ',
           index,
+          album: item,
         };
       });
       ref.current.addItems(items);
     }
-  }, []);
+  }, [albums]);
   return (
     <Masonry
       ref={ref}
       columns={2}
-      renderItem={item => (
+      renderItem={(item: any) => (
         <TouchableScale
-          onPress={() => navigation.navigate('ListSongScreen')}
+          onPress={() =>
+            navigation.navigate('ListSongScreen', {album: item.album})
+          }
           activeScale={0.95}
           style={[styles.containerItem, {height: item.height}]}>
           <View style={styles.overlay} />
