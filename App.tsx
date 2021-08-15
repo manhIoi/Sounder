@@ -13,6 +13,7 @@ import {LogBox, StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import MainDrawer from './src/navigations/MainDrawer';
 import {useSelector} from 'react-redux';
+import Root from './src/navigations/Root';
 
 const App = () => {
   LogBox.ignoreAllLogs();
@@ -25,7 +26,7 @@ const App = () => {
         barStyle="dark-content"
       />
       <NavigationContainer>
-        <MainDrawer />
+        <Root />
       </NavigationContainer>
     </View>
   );

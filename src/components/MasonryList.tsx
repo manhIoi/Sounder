@@ -34,20 +34,26 @@ const MasonryList = ({albums}: {albums: AlbumType[]}) => {
     <Masonry
       ref={ref}
       columns={2}
-      renderItem={(item: any) => (
-        <TouchableScale
-          onPress={() =>
-            navigation.navigate('ListSongScreen', {album: item.album})
-          }
-          activeScale={0.95}
-          style={[styles.containerItem, {height: item.height}]}>
-          <View style={styles.overlay} />
-          <MasonryItem
-            title={item.name}
-            image={item.image}
-            artist={item.artist}
-          />
-        </TouchableScale>
+      keyExtractor={({item, index}) => index + ''}
+      renderItem={(item: any, index: number) => (
+        <Animatable.View
+          animation="fadeInUp"
+          duration={500}
+          delay={index * 100}>
+          <TouchableScale
+            onPress={() =>
+              navigation.navigate('ListSongScreen', {album: item.album})
+            }
+            activeScale={0.95}
+            style={[styles.containerItem, {height: item.height}]}>
+            <View style={styles.overlay} />
+            <MasonryItem
+              title={item.name}
+              image={item.image}
+              artist={item.artist}
+            />
+          </TouchableScale>
+        </Animatable.View>
       )}
     />
   );

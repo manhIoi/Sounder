@@ -98,7 +98,7 @@ const CurrentSongScreen = () => {
 
       startPlayer();
     }
-  }, [listTrack.listSong, listTrack.songSelected]);
+  }, [listTrack.listSong]);
   // [] rerender list tracking is change
 
   useEffect(() => {
@@ -185,6 +185,7 @@ const CurrentSongScreen = () => {
         slidingStarted={slidingStarted}
         slidingCompleted={slidingCompleted}
         onButtonPressed={onButtonPressed}
+        setIndexCurrentSong={setIndexCurrentSong}
       />
     </View>
   );

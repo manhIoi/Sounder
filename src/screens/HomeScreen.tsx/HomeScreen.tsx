@@ -8,6 +8,7 @@ import BtnDrawer from '../../components/BtnDrawer';
 import rootApi from '../../api';
 import {useState} from 'react';
 import {AlbumType} from '../../types';
+import Loading from '../../components/Loading';
 
 const HomeScreen = () => {
   const [albums, setAlbums] = useState<AlbumType[]>([]);
@@ -42,40 +43,42 @@ const HomeScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      <Animated.View
-        style={[
-          styles.headerSecondary,
-          {
-            transform: [{translateY}],
-            opacity: opacit2,
-          },
-        ]}>
-        <BtnDrawer color="#fff" />
-      </Animated.View>
-      <Animated.ScrollView
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: scrollY,
-                },
+      {albums.length > 0 ? (
+        <>
+          <Animated.View
+            style={[
+              styles.headerSecondary,
+              {
+                transform: [{translateY}],
+                opacity: opacit2,
               },
-            },
-          ],
-          {useNativeDriver: true},
-        )}
-        style={{flex: 1, backgroundColor: '#fff', padding: spacing.normal}}>
-        <Animated.View style={[styles.header, {opacity}]}>
-          <BtnDrawer />
-          <Text style={styles.heading}>Trang Chủ</Text>
-        </Animated.View>
-        {albums && (
-          <Animatable.View animation="fadeInUp" duration={1000} delay={1000}>
-            <MasonryList albums={albums} />
-          </Animatable.View>
-        )}
-      </Animated.ScrollView>
+            ]}>
+            <BtnDrawer color="#fff" />
+          </Animated.View>
+          <Animated.ScrollView
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: scrollY,
+                    },
+                  },
+                },
+              ],
+              {useNativeDriver: true},
+            )}
+            style={{flex: 1, backgroundColor: '#fff', padding: spacing.normal}}>
+            <Animated.View style={[styles.header, {opacity}]}>
+              <BtnDrawer />
+              <Text style={styles.heading}>Trang Chủ</Text>
+            </Animated.View>
+            {albums && <MasonryList albums={albums} />}
+          </Animated.ScrollView>
+        </>
+      ) : (
+        <Loading />
+      )}
     </View>
   );
 };

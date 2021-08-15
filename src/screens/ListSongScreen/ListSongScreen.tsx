@@ -11,16 +11,20 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import rootApi from '../../api';
+import Loading from '../../components/Loading';
 import SongItem from '../../components/SongItem';
+import dimensions from '../../constants/dimensions';
 import {mockListSongs} from '../../constants/mockdata';
 import {setListTrack} from '../../redux/actions/listTrackAction';
+import {RootState} from '../../redux/reducers';
 import {SongType} from '../../types';
 
 import styles, {imgBannerH, imgBannerW} from './styles';
 
 const ListSongScreen = () => {
+  const listTrack = useSelector((state: RootState) => state.listTrack);
   const route = useRoute();
   const {album} = route.params;
   const [songs, setSongs] = useState<SongType[]>([]);
@@ -34,13 +38,22 @@ const ListSongScreen = () => {
   });
 
   const handlePress = (index: number) => {
-    dispatch(
-      setListTrack({
-        listSong: songs,
-        songSelected: index,
-        isOpenCurrentSong: true,
-      }),
-    );
+    if (listTrack.listSong[listTrack.songSelected]?._id === songs[index]?._id) {
+      dispatch(
+        setListTrack({
+          isOpenCurrentSong: true,
+        }),
+      );
+    } else {
+      dispatch(
+        setListTrack({
+          listSong: songs,
+          songSelected: index,
+          isOpenCurrentSong: true,
+        }),
+      );
+    }
+
     // navigation.navigate('CurrentSongScreen');
   };
 
@@ -83,17 +96,29 @@ const ListSongScreen = () => {
           ]}
         />
       </View>
-      <FlatList
-        data={songs}
-        style={styles.listSong}
-        scrollEnabled={false}
-        keyExtractor={(item, index) => item._id + ''}
-        renderItem={({item, index}) => {
-          return (
-            <SongItem song={item} index={index} handlePress={handlePress} />
-          );
-        }}
-      />
+      {songs.length > 0 ? (
+        <FlatList
+          data={songs}
+          style={styles.listSong}
+          scrollEnabled={false}
+          keyExtractor={(item, index) => item._id + ''}
+          renderItem={({item, index}) => {
+            return (
+              <SongItem song={item} index={index} handlePress={handlePress} />
+            );
+          }}
+        />
+      ) : (
+        <View
+          style={{
+            width: dimensions.w,
+            height: dimensions.h * 0.3,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Loading />
+        </View>
+      )}
     </Animated.ScrollView>
   );
 };

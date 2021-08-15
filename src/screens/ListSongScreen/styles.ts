@@ -16,6 +16,12 @@ const styles = StyleSheet.create({
   listSong: {
     minHeight: dimensions.h - dimensions.statusbarH - spacing.normal * 2,
   },
+  loadingContainer: {
+    width: imgBannerW,
+    height: dimensions.h - imgBannerH,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export {imgBannerH, imgBannerW};

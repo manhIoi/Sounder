@@ -2,14 +2,23 @@ import React, {useEffect, useState} from 'react';
 import LottieView from 'lottie-react-native';
 import {View} from 'react-native';
 import rootColor from '../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const SplashScreen = () => {
   const [isLoadding, setIsLoadding] = useState(true);
+  const navigation = useNavigation<StackNavigationProp<any>>();
   useEffect(() => {
     setTimeout(() => {
       setIsLoadding(false);
-    }, 1000);
+    }, 2000);
   }, []);
+
+  useEffect(() => {
+    if (!isLoadding) {
+      navigation.navigate('MainDrawer');
+    }
+  }, [isLoadding]);
 
   return (
     <View

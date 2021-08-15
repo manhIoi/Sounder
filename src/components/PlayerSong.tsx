@@ -28,13 +28,32 @@ const PlayerSong = ({
   slidingStarted,
   slidingCompleted,
   onButtonPressed,
+  setIndexCurrentSong,
 }: {
   sliderValue: number;
   slidingStarted: () => void;
   slidingCompleted: (value: number) => void;
   onButtonPressed: () => void;
+  setIndexCurrentSong: (index: number) => void;
 }) => {
   const currentSong = useSelector((state: RootState) => state.currentSong);
+  const listTrack = useSelector((state: RootState) => state.listTrack);
+  const {listSong, songSelected} = listTrack;
+
+  const prevBtnPress = () => {
+    if (songSelected === 0) {
+      setIndexCurrentSong(listSong.length - 1);
+    } else {
+      setIndexCurrentSong(songSelected - 1);
+    }
+  };
+  const nextBtnPress = () => {
+    if (songSelected === listSong.length - 1) {
+      setIndexCurrentSong(0);
+    } else {
+      setIndexCurrentSong(songSelected + 1);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -63,7 +82,10 @@ const PlayerSong = ({
         </View>
 
         <View style={{flexDirection: 'row'}}>
-          <TouchableScale style={styles.btnPlay} activeScale={0.7}>
+          <TouchableScale
+            style={styles.btnPlay}
+            activeScale={0.7}
+            onPress={prevBtnPress}>
             <MaterialCommunityIcons
               name="skip-previous"
               size={40}
@@ -85,7 +107,10 @@ const PlayerSong = ({
             </LinearGradient>
           </TouchableScale>
 
-          <TouchableScale activeScale={0.7} style={styles.btnPlay}>
+          <TouchableScale
+            activeScale={0.7}
+            style={styles.btnPlay}
+            onPress={nextBtnPress}>
             <MaterialCommunityIcons
               name="skip-next"
               size={40}
