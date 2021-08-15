@@ -1,9 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, FlatList, Image, StyleSheet, Animated} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 import Overlay from '../../components/Overlay';
 import PlayerSong from '../../components/PlayerSong';
 import rootColor from '../../constants/colors';
-import dimensions, {rangeItemCurrentSong} from '../../constants/dimensions';
+import dimensions, {
+  headerH,
+  rangeItemCurrentSong,
+} from '../../constants/dimensions';
 import {rootFonts} from '../../constants/fonts';
 import {mockListSongs} from '../../constants/mockdata';
 import TrackPlayer, {
@@ -19,6 +30,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import {setListTrack} from '../../redux/actions/listTrackAction';
 import {setCurrentSong} from '../../redux/actions/currentSongAction';
+import Feather from 'react-native-vector-icons/Feather';
 
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
@@ -83,33 +95,10 @@ const CurrentSongScreen = () => {
           TrackPlayer.play();
         }
       };
-      const listener = TrackPlayer.addEventListener(
-        [Event.PlaybackTrackChanged],
-        async data => {
-          console.log(data);
-          if (data.track >= 0) {
-            if (data.nextTrack) {
-              const trackIndex = await TrackPlayer.getCurrentTrack();
-              setIndexCurrentSong(trackIndex);
-            } else {
-              if (listTrack.listSong.length === 1) {
-                await TrackPlayer.seekTo(0);
-                console.log('replay song');
-              } else {
-                setIndexCurrentSong(0);
-                console.log('move first song after end quence');
-              }
-            }
-          }
-        },
-      );
-      startPlayer();
 
-      return () => {
-        listener.remove();
-      };
+      startPlayer();
     }
-  }, []);
+  }, [listTrack.listSong, listTrack.songSelected]);
   // [] rerender list tracking is change
 
   useEffect(() => {
@@ -135,11 +124,53 @@ const CurrentSongScreen = () => {
   }, [position, duration]);
 
   useEffect(() => {
-    console.log(listTrack);
-  }, [listTrack]);
+    const listener = TrackPlayer.addEventListener(
+      [Event.PlaybackTrackChanged],
+      async data => {
+        console.log(data);
+        if (data.track >= 0) {
+          if (data.nextTrack) {
+            const trackIndex = await TrackPlayer.getCurrentTrack();
+            setIndexCurrentSong(trackIndex);
+          } else {
+            if (listTrack.listSong.length === 1) {
+              await TrackPlayer.seekTo(0);
+              console.log('replay song');
+            } else {
+              // setIndexCurrentSong(0);
+              // console.log('move first song after end quence');
+            }
+          }
+        }
+      },
+    );
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   return (
     <View style={{flex: 1}}>
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          width: w,
+          height: headerH,
+          marginTop: dimensions.statusbarH,
+        }}>
+        <TouchableOpacity
+          onPress={() => dispatch(setListTrack({isOpenCurrentSong: false}))}
+          style={{
+            height: headerH,
+            aspectRatio: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 2000,
+          }}>
+          <Feather name="chevron-down" size={25} color={rootColor.whiteColor} />
+        </TouchableOpacity>
+      </View>
       <Overlay scrollX={scrollX} listSong={listTrack.listSong} />
       <DetailSongs
         progress={progress}

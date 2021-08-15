@@ -1,20 +1,32 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
+import TouchableScale from 'react-native-touchable-scale';
+import {useDispatch, useSelector} from 'react-redux';
+import rootColor from '../constants/colors';
 import {spacing} from '../constants/dimensions';
+import {rootFonts} from '../constants/fonts';
+import {setListTrack} from '../redux/actions/listTrackAction';
+import {RootState} from '../redux/reducers';
+import {SongType} from '../types';
 
 const PlayerWidget = () => {
+  const listTrack = useSelector((state: RootState) => state.listTrack);
+  const currentSong = useSelector((state: RootState) => state.currentSong);
+  const dispatch = useDispatch();
+  const {listSong, songSelected} = listTrack;
+
   return (
-    <View
+    <TouchableScale
+      onPress={() => dispatch(setListTrack({isOpenCurrentSong: true}))}
       style={{
         position: 'absolute',
         bottom: 20,
         left: 20,
         right: 20,
-        backgroundColor: 'orange',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         height: 75,
         zIndex: 1000,
         flexDirection: 'row',
-        borderTopColor: 'gray',
         borderRadius: 10,
         overflow: 'hidden',
       }}>
@@ -25,33 +37,42 @@ const PlayerWidget = () => {
           left: 0,
           right: 0,
           height: 3,
-          backgroundColor: 'gray',
+          backgroundColor: 'lightgray',
           zIndex: 50,
         }}>
         <View
           style={{
             position: 'absolute',
             left: 0,
-            right: '50%',
+            right:
+              100 - (currentSong.position / currentSong.duration) * 100 + '%',
             height: '100%',
-            backgroundColor: 'red',
+            backgroundColor: rootColor.primaryColor,
           }}></View>
       </View>
       <Image
         style={{height: '100%', aspectRatio: 1}}
-        source={{uri: 'https://i.ytimg.com/vi/ilKg0DZrOwY/maxresdefault.jpg'}}
+        source={{uri: listSong[songSelected].artwork}}
       />
       <View
         style={{
           justifyContent: 'center',
           flex: 1,
-          backgroundColor: 'tomato',
           marginLeft: spacing.normal,
         }}>
-        <Text>Ai mang cô đơn đi</Text>
-        <Text>K-ICM ft APJ</Text>
+        <Text
+          style={{
+            fontFamily: rootFonts.semiBold,
+            color: rootColor.middleColor,
+          }}>
+          {listSong[songSelected].title}
+        </Text>
+        <Text
+          style={{fontFamily: rootFonts.semiBold, color: rootColor.whiteColor}}>
+          {listSong[songSelected].artist}
+        </Text>
       </View>
-    </View>
+    </TouchableScale>
   );
 };
 

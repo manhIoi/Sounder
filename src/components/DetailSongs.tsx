@@ -47,9 +47,18 @@ const DetailSongs = ({
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        initialScrollIndex={defaultIndex}
+        // initialScrollIndex={defaultIndex}
         onMomentumScrollEnd={e => {
           setIndexCurrentSong(Math.ceil(e.nativeEvent.contentOffset.x / w));
+        }}
+        onScrollToIndexFailed={info => {
+          setTimeout(() => {
+            console.log('firt scroll');
+            ref.current?.scrollToOffset({
+              animated: true,
+              offset: info.index * info.averageItemLength,
+            });
+          }, 2000);
         }}
         onScroll={Animated.event(
           [

@@ -38,9 +38,10 @@ const ListSongScreen = () => {
       setListTrack({
         listSong: songs,
         songSelected: index,
+        isOpenCurrentSong: true,
       }),
     );
-    navigation.navigate('CurrentSongScreen');
+    // navigation.navigate('CurrentSongScreen');
   };
 
   const getSongsData = async () => {
