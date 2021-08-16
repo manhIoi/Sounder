@@ -30,9 +30,22 @@ const getSongByAlbum = async (idAlbum: any) => {
   }
 };
 
+const login = async (email: string, password: string) => {
+  try {
+    const body = await callApi('post', `${endpoint}/users/login`, {
+      email,
+      password,
+    });
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
 const rootApi = {
   getAllAlbums,
   getSongByAlbum,
+  login,
 };
 
 export default rootApi;

@@ -109,13 +109,7 @@ const ListSongScreen = () => {
           }}
         />
       ) : (
-        <View
-          style={{
-            width: dimensions.w,
-            height: dimensions.h * 0.3,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View style={styles.loadingContainer}>
           <Loading />
         </View>
       )}

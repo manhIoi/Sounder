@@ -7,4 +7,8 @@ const listTrackType = {
   SET_INDEX_TRACK: 'SET_INDEX_TRACK',
 };
 
-export {currentSongType, listTrackType};
+const userType = {
+  LOGIN: 'LOGIN',
+};
+
+export {currentSongType, listTrackType, userType};

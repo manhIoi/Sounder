@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from '../screens/SplashScreen';
 import MainDrawer from './MainDrawer';
+import AuthStack from './AuthStack';
 
 const Stack = createStackNavigator();
 
@@ -11,6 +12,7 @@ const Root = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="MainDrawer" component={MainDrawer} />
+      <Stack.Screen name="AuthStack" component={AuthStack} />
     </Stack.Navigator>
   );
 };

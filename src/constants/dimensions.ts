@@ -24,8 +24,12 @@ const rangeItemCurrentSong = {
   detailH: widthImg * 1.3,
 };
 
+const authFormDimensions = {
+  w: dimensions.w,
+  h: dimensions.h * 0.4,
+};
+
 const headerH = dimensions.h * 0.07;
 
 export default dimensions;
-export {spacing, rangeItemCurrentSong};
-export {headerH};
+export {spacing, rangeItemCurrentSong, headerH, authFormDimensions};
