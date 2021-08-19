@@ -63,7 +63,8 @@ const MyTab = () => {
           tabBarActiveTintColor: rootColor.primaryColor,
           tabBarInactiveTintColor: rootColor.grayTextColor,
           tabBarStyle: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            borderRadius: 10,
             position: 'absolute',
             left: (dimensions.w - bottomTabDimension.w) / 2,
             width: bottomTabDimension.w,

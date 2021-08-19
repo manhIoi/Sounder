@@ -2,21 +2,12 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useRef} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Animated,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import {View, Text, FlatList, Animated} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import rootApi from '../../api';
 import Loading from '../../components/Loading';
 import SongItem from '../../components/SongItem';
-import dimensions from '../../constants/dimensions';
-import {mockListSongs} from '../../constants/mockdata';
 import {setListTrack} from '../../redux/actions/listTrackAction';
 import {RootState} from '../../redux/reducers';
 import {SongType} from '../../types';
@@ -36,6 +27,10 @@ const ListSongScreen = () => {
     inputRange: [0, imgBannerH],
     outputRange: [1, 0],
   });
+  const borderRadius = scrollY.interpolate({
+    inputRange: [0, imgBannerH],
+    outputRange: [0, 100],
+  });
 
   const handlePress = (index: number) => {
     if (listTrack.listSong[listTrack.songSelected]?._id === songs[index]?._id) {
@@ -53,8 +48,6 @@ const ListSongScreen = () => {
         }),
       );
     }
-
-    // navigation.navigate('CurrentSongScreen');
   };
 
   const getSongsData = async () => {
@@ -92,6 +85,7 @@ const ListSongScreen = () => {
                 },
               ],
               opacity: scale,
+              borderRadius: borderRadius,
             },
           ]}
         />
@@ -100,7 +94,6 @@ const ListSongScreen = () => {
         <FlatList
           data={songs}
           style={styles.listSong}
-          scrollEnabled={false}
           keyExtractor={(item, index) => item._id + ''}
           renderItem={({item, index}) => {
             return (

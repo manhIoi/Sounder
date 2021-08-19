@@ -31,7 +31,7 @@ const authFormDimensions = {
 
 const bottomTabDimension = {
   h: 60,
-  w: dimensions.w - 2 * spacing.normal,
+  w: dimensions.w - 2 * spacing.normal - 10,
 };
 
 const headerH = dimensions.h * 0.07;

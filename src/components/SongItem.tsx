@@ -1,9 +1,17 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Animated,
+} from 'react-native';
 import {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
 import {SongType} from '../types';
-
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import SongActions from './SongActions';
 const imgH = 75;
 const imgW = imgH;
 
@@ -16,17 +24,38 @@ const SongItem = ({
   index: number;
   handlePress: (index: number) => void;
 }) => {
+  const addToMyfavorite = () => {
+    console.log('add to myfavorite');
+  };
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => handlePress(index)}
-      style={styles.container}>
-      <Image source={{uri: song.artwork}} style={styles.img} />
-      <View style={styles.wrapText}>
-        <Text style={styles.title}>{song.title}</Text>
-        <Text style={styles.artist}>{song.artist}</Text>
-      </View>
-    </TouchableOpacity>
+    <Swipeable
+      useNativeAnimations={true}
+      overshootRight={false}
+      renderRightActions={(
+        progress: Animated.AnimatedInterpolation,
+        dragX: Animated.AnimatedInterpolation,
+      ) => {
+        const scale = progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 1],
+        });
+        return (
+          <Animated.View style={{flexDirection: 'row', transform: [{scale}]}}>
+            <SongActions type="favorite" callback={addToMyfavorite} />
+          </Animated.View>
+        );
+      }}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => handlePress(index)}
+        style={styles.container}>
+        <Image source={{uri: song.artwork}} style={styles.img} />
+        <View style={styles.wrapText}>
+          <Text style={styles.title}>{song.title}</Text>
+          <Text style={styles.artist}>{song.artist}</Text>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
   );
 };
 
@@ -49,6 +78,13 @@ const styles = StyleSheet.create({
   img: {
     width: imgW,
     height: imgH,
+  },
+  deleteBox: {
+    height: '100%',
+    aspectRatio: 1,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

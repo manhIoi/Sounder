@@ -10,18 +10,24 @@ import React, {useState} from 'react';
 import {View, Text, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import rootColor from '../constants/colors';
 import {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
 
 const listDrawerItem = [
   {
-    name: 'Home Screen',
+    name: 'HomeStack',
     label: 'Trang chủ',
     icon: (color: string) => <Feather name="home" size={20} color={color} />,
   },
   {
-    name: 'Account Screen',
+    name: 'MyFavoriteScreen',
+    label: 'Album của tôi',
+    icon: (color: string) => <AntDesign name="heart" size={20} color={color} />,
+  },
+  {
+    name: 'AccountScreen',
     label: 'Tài khoản',
     icon: (color: string) => <Feather name="user" size={20} color={color} />,
   },
@@ -39,7 +45,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             label={item.label}
             onPress={() => {
               setIsFocused(index);
-              //   navigation.navigate(item.name);
+              navigation.navigate(item.name);
             }}
             pressColor={rootColor.secondaryColor}
             inactiveTintColor={rootColor.whiteColor}

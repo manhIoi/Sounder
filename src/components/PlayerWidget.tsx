@@ -4,7 +4,7 @@ import {View, Text, Image} from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import {useDispatch, useSelector} from 'react-redux';
 import rootColor from '../constants/colors';
-import {spacing} from '../constants/dimensions';
+import {bottomTabDimension, spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
 import {setListTrack} from '../redux/actions/listTrackAction';
 import {RootState} from '../redux/reducers';
