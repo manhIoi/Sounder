@@ -29,7 +29,18 @@ const authFormDimensions = {
   h: dimensions.h * 0.4,
 };
 
+const bottomTabDimension = {
+  h: 60,
+  w: dimensions.w - 2 * spacing.normal,
+};
+
 const headerH = dimensions.h * 0.07;
 
 export default dimensions;
-export {spacing, rangeItemCurrentSong, headerH, authFormDimensions};
+export {
+  spacing,
+  rangeItemCurrentSong,
+  headerH,
+  authFormDimensions,
+  bottomTabDimension,
+};

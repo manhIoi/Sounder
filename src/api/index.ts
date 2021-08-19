@@ -42,10 +42,41 @@ const login = async (email: string, password: string) => {
   }
 };
 
+const register = async (newAccount: {
+  displayName: string;
+  email: string;
+  password: string;
+}) => {
+  try {
+    const body = await callApi(
+      'post',
+      `${endpoint}/users/register`,
+      newAccount,
+    );
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+const createMyFavorite = async (idUser: string) => {
+  try {
+    const body = await callApi(
+      'post',
+      `${endpoint}/myFavorite/create/${idUser}`,
+    );
+    console.log(body);
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
 const rootApi = {
   getAllAlbums,
   getSongByAlbum,
   login,
+  register,
+  createMyFavorite,
 };
 
 export default rootApi;

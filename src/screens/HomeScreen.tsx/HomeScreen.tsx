@@ -1,17 +1,25 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, Image, ScrollView, Animated} from 'react-native';
+import {View, Text, Animated, TouchableOpacity} from 'react-native';
 import MasonryList from '../../components/MasonryList';
-import * as Animatable from 'react-native-animatable';
 import styles from './styles';
-import dimensions, {headerH, spacing} from '../../constants/dimensions';
+import {headerH, spacing} from '../../constants/dimensions';
 import BtnDrawer from '../../components/BtnDrawer';
 import rootApi from '../../api';
 import {useState} from 'react';
 import {AlbumType} from '../../types';
 import Loading from '../../components/Loading';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/reducers';
+import rootColor from '../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import CustomAvatar from '../../components/CustomAvatar';
 
 const HomeScreen = () => {
   const [albums, setAlbums] = useState<AlbumType[]>([]);
+  const user = useSelector((state: RootState) => state.user);
+  console.log(user);
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const scrollY = useRef(new Animated.Value(0)).current;
   const translateY = scrollY.interpolate({
     inputRange: [0, headerH, headerH + 1],
@@ -54,6 +62,16 @@ const HomeScreen = () => {
               },
             ]}>
             <BtnDrawer color="#fff" />
+            {!user._id ? (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AuthStack')}>
+                <Text style={[styles.loginText, {color: rootColor.whiteColor}]}>
+                  Đăng nhập
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <CustomAvatar name={user.displayName} />
+            )}
           </Animated.View>
           <Animated.ScrollView
             onScroll={Animated.event(
@@ -70,8 +88,18 @@ const HomeScreen = () => {
             )}
             style={{flex: 1, backgroundColor: '#fff', padding: spacing.normal}}>
             <Animated.View style={[styles.header, {opacity}]}>
-              <BtnDrawer />
-              <Text style={styles.heading}>Trang Chủ</Text>
+              <View style={{flexDirection: 'row'}}>
+                <BtnDrawer />
+                <Text style={styles.heading}>Trang Chủ</Text>
+              </View>
+              {!user._id ? (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('AuthStack')}>
+                  <Text style={styles.loginText}>Đăng nhập</Text>
+                </TouchableOpacity>
+              ) : (
+                <CustomAvatar name={user.displayName} />
+              )}
             </Animated.View>
             {albums && <MasonryList albums={albums} />}
           </Animated.ScrollView>

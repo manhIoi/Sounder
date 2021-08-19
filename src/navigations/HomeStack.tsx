@@ -1,3 +1,5 @@
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -19,6 +21,7 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   const listTrack = useSelector((state: RootState) => state.listTrack);
   const translateY = useRef(new Animated.Value(dimensions.h)).current;
+  const navigation = useNavigation<BottomTabNavigationProp<any>>();
 
   useEffect(() => {
     Animated.timing(translateY, {
@@ -38,13 +41,6 @@ const HomeStack = () => {
         }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="ListSongScreen" component={ListSongScreen} />
-        {/* <Stack.Screen
-          name="CurrentSongScreen"
-          component={CurrentSongScreen}
-          options={{
-            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-          }}
-        /> */}
       </Stack.Navigator>
       <Animated.View
         style={{

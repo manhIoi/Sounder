@@ -6,6 +6,7 @@ import {
 } from '@react-navigation/stack';
 import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
 import HomeStack from './HomeStack';
+import MyTab from './MyTab';
 
 const Stack = createStackNavigator();
 
@@ -56,7 +57,7 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
           headerShown: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
-        <Stack.Screen name="HomeStack" component={HomeStack} />
+        <Stack.Screen name="MyTab" component={MyTab} />
         <Stack.Screen name="Test1" component={ListSongScreen} />
       </Stack.Navigator>
     </Animated.View>

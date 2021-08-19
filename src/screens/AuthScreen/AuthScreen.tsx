@@ -30,6 +30,14 @@ const AuthScreen = () => {
     setIsShow(false);
   };
 
+  const showSignInForm = () => {
+    showForm(0);
+  };
+
+  const showSignUpForm = () => {
+    showForm(1);
+  };
+
   const outputCaculate = (inRange: number[], outRange: any[]) => {
     return progress.interpolate({
       inputRange: inRange,
@@ -40,7 +48,7 @@ const AuthScreen = () => {
   useEffect(() => {
     Animated.timing(progress, {
       toValue: isShow ? 1 : 0,
-      duration: 1000,
+      duration: 800,
       useNativeDriver: true,
     }).start();
   }, [isShow]);
@@ -76,10 +84,10 @@ const AuthScreen = () => {
               opacity: outputCaculate([0, 0.25], [1, 0]),
             },
           ]}>
-          <TouchableScale style={styles.btn} onPress={() => showForm(0)}>
+          <TouchableScale style={styles.btn} onPress={showSignInForm}>
             <Text style={styles.textBtn}>Sign In</Text>
           </TouchableScale>
-          <TouchableScale style={styles.btn} onPress={() => showForm(1)}>
+          <TouchableScale style={styles.btn} onPress={showSignUpForm}>
             <Text style={styles.textBtn}>Sign Up</Text>
           </TouchableScale>
         </Animated.View>
@@ -116,7 +124,11 @@ const AuthScreen = () => {
           onPress={closeForm}>
           <AntDesign name="close" size={20} color={rootColor.whiteColor} />
         </CloseBtn>
-        {action ? <SignUpForm /> : <SignInForm />}
+        {action ? (
+          <SignUpForm showSignInForm={showSignInForm} />
+        ) : (
+          <SignInForm showSignUpForm={showSignUpForm} />
+        )}
       </Animated.View>
     </View>
   );

@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   closeBtn: {
     width: 40,

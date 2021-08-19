@@ -16,7 +16,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     if (!isLoadding) {
-      navigation.navigate('AuthStack');
+      navigation.navigate('MainDrawer');
       // fake login
     }
   }, [isLoadding]);

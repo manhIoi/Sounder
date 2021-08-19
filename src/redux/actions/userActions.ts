@@ -18,8 +18,8 @@ const login = (email: string, password: string) => async dispatch => {
         payload: payload,
       });
     } else {
-      //   return body;
-      console.log(body);
+      return {error: body};
+      // console.log(body);
     }
   } catch (error) {
     console.log(error.message);

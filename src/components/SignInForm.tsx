@@ -8,21 +8,27 @@ import {View, Text} from 'react-native';
 import TouchableScale from 'react-native-touchable-scale';
 import {useDispatch, useSelector} from 'react-redux';
 import rootColor from '../constants/colors';
-import dimensions from '../constants/dimensions';
+import dimensions, {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
 import {login} from '../redux/actions/userActions';
 import {RootState} from '../redux/reducers';
 import MyTextInput from './MyTextInput';
+import PrimaryBtn from './PrimaryBtn';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Alert} from 'react-native';
 
-const SignInForm = () => {
+const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
   const user = useSelector((state: RootState) => state.user);
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
-  const signIn = () => {
-    dispatch(login(email, password));
+  const signIn = async () => {
+    const res = await dispatch(login(email, password));
+    if (res?.error) {
+      Alert.alert('Thông báo', res.error);
+    }
   };
 
   useEffect(() => {
@@ -33,31 +39,27 @@ const SignInForm = () => {
 
   return (
     <View style={styles.container}>
-      <MyTextInput placeholder="Email" value={email} setValue={setEmail} />
+      <MyTextInput
+        leftIcon={
+          <AntDesign name="user" color={rootColor.primaryColor} size={20} />
+        }
+        placeholder="Email"
+        value={email}
+        setValue={setEmail}
+      />
       <MyTextInput
         placeholder="Password"
         value={password}
         setValue={setPassword}
         secureText
+        leftIcon={
+          <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
+        }
       />
-      <TouchableScale
-        onPress={signIn}
-        style={{
-          width: dimensions.w * 0.4,
-          backgroundColor: rootColor.primaryColor,
-          height: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            textTransform: 'uppercase',
-            color: rootColor.whiteColor,
-            fontFamily: rootFonts.semiBold,
-          }}>
-          Sign In
-        </Text>
-      </TouchableScale>
+      <View style={{marginBottom: spacing.normal}}>
+        <PrimaryBtn callback={signIn} title="Sign In" uppercase />
+      </View>
+      <PrimaryBtn callback={showSignUpForm} title="Sign Up" uppercase outline />
     </View>
   );
 };
