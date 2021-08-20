@@ -19,14 +19,15 @@ const SongItem = ({
   song,
   index,
   handlePress,
+  action,
+  callbackAction,
 }: {
   song: SongType;
   index: number;
+  action: string;
+  callbackAction: (song: SongType | number) => void;
   handlePress: (index: number) => void;
 }) => {
-  const addToMyfavorite = () => {
-    console.log('add to myfavorite');
-  };
   return (
     <Swipeable
       useNativeAnimations={true}
@@ -41,7 +42,7 @@ const SongItem = ({
         });
         return (
           <Animated.View style={{flexDirection: 'row', transform: [{scale}]}}>
-            <SongActions type="favorite" callback={addToMyfavorite} />
+            <SongActions type={action} callback={() => callbackAction(song)} />
           </Animated.View>
         );
       }}>

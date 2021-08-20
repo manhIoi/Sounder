@@ -59,7 +59,6 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
         <Stack.Screen name="HomeStack" component={HomeStack} />
-        <Stack.Screen name="MyFavoriteScreen" component={MyFavoriteScreen} />
       </Stack.Navigator>
     </Animated.View>
   );

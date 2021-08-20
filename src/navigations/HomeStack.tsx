@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
+  StackNavigationProp,
 } from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {useRef} from 'react';
@@ -15,13 +16,14 @@ import {RootState} from '../redux/reducers';
 import CurrentSongScreen from '../screens/CurrentSongScreen/CurrentSongScreen';
 import HomeScreen from '../screens/HomeScreen.tsx/HomeScreen';
 import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
+import MyFavoriteScreen from '../screens/MyFavoriteScreen/MyFavoriteScreen';
 
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
   const listTrack = useSelector((state: RootState) => state.listTrack);
   const translateY = useRef(new Animated.Value(dimensions.h)).current;
-  const navigation = useNavigation<BottomTabNavigationProp<any>>();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   useEffect(() => {
     Animated.timing(translateY, {
@@ -41,6 +43,7 @@ const HomeStack = () => {
         }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="ListSongScreen" component={ListSongScreen} />
+        <Stack.Screen name="MyFavoriteScreen" component={MyFavoriteScreen} />
       </Stack.Navigator>
       <Animated.View
         style={{

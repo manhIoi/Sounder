@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
   },
   artist: {
     fontFamily: rootFonts.semiBold,
-    fontSize: 18,
     color: rootColor.middleColor,
   },
   title: {
     fontFamily: rootFonts.semiBold,
     color: rootColor.whiteColor,
+    fontSize: 17,
   },
 });
 

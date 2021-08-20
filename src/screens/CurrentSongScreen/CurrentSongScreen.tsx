@@ -61,14 +61,14 @@ const CurrentSongScreen = () => {
   };
 
   const onButtonPressed = () => {
-    console.log(currentSong);
+    // console.log(currentSong);
 
     if (currentSong.isPlaying) {
-      console.log('playing');
+      // console.log('playing');
       TrackPlayer.pause();
       dispatch(setCurrentSong({isPlaying: false}));
     } else {
-      console.log('pause');
+      // console.log('pause');
       TrackPlayer.play();
       dispatch(setCurrentSong({isPlaying: true}));
     }
@@ -102,7 +102,7 @@ const CurrentSongScreen = () => {
   // [] rerender list tracking is change
 
   useEffect(() => {
-    console.log('index current song', listTrack.songSelected);
+    // console.log('index current song', listTrack.songSelected);
     const moveSong = async () => {
       console.log(listTrack.songSelected);
       if (isTrackPlayerInit) {
@@ -127,7 +127,7 @@ const CurrentSongScreen = () => {
     const listener = TrackPlayer.addEventListener(
       [Event.PlaybackTrackChanged],
       async data => {
-        console.log(data);
+        // console.log(data);
         if (data.track >= 0) {
           if (data.nextTrack) {
             const trackIndex = await TrackPlayer.getCurrentTrack();

@@ -14,10 +14,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import rootColor from '../constants/colors';
 import {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../redux/reducers';
+import {setListTrack} from '../redux/actions/listTrackAction';
 
 const listDrawerItem = [
   {
-    name: 'HomeStack',
+    name: 'HomeScreen',
     label: 'Trang chủ',
     icon: (color: string) => <Feather name="home" size={20} color={color} />,
   },
@@ -35,7 +39,8 @@ const listDrawerItem = [
 
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
-  const [isFocused, setIsFocused] = useState(0);
+  const indexDrawer = useSelector((state: RootState) => state.indexDrawer);
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView>
@@ -44,15 +49,19 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             key={item.name}
             label={item.label}
             onPress={() => {
-              setIsFocused(index);
               navigation.navigate(item.name);
+              dispatch(
+                setListTrack({
+                  isOpenCurrentSong: false,
+                }),
+              );
             }}
             pressColor={rootColor.secondaryColor}
             inactiveTintColor={rootColor.whiteColor}
             activeTintColor={rootColor.secondaryColor}
             activeBackgroundColor={rootColor.whiteColor}
             labelStyle={styles.label}
-            focused={isFocused === index}
+            focused={indexDrawer === index}
             icon={({color}) => item.icon(color)}
           />
         ))}

@@ -8,19 +8,21 @@ import rootApi from '../../api';
 import {useState} from 'react';
 import {AlbumType} from '../../types';
 import Loading from '../../components/Loading';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import rootColor from '../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import CustomAvatar from '../../components/CustomAvatar';
+import {setIndex} from '../../redux/actions/indexDrawerAction';
 
 const HomeScreen = () => {
   const [albums, setAlbums] = useState<AlbumType[]>([]);
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const isFocused = useIsFocused();
   const scrollY = useRef(new Animated.Value(0)).current;
+  const dispatch = useDispatch();
   const translateY = scrollY.interpolate({
     inputRange: [0, headerH, headerH + 1],
     outputRange: [0, headerH, headerH],
@@ -46,8 +48,10 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    console.log(albums);
-  }, [albums]);
+    if (isFocused) {
+      dispatch(setIndex(0));
+    }
+  }, [isFocused]);
 
   return (
     <View style={{flex: 1}}>

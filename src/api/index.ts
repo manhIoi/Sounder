@@ -1,3 +1,4 @@
+import {SongType} from '../types';
 import callApi from '../utils/callApi';
 
 const endpoint = 'https://app-music-server.herokuapp.com';
@@ -71,12 +72,55 @@ const createMyFavorite = async (idUser: string) => {
   }
 };
 
+const addToMyFavorite = async (idUser: string, newSong: SongType) => {
+  try {
+    const body = await callApi(
+      'put',
+      `${endpoint}/myFavorite/update/addToMyFavorite/${idUser}`,
+      newSong,
+    );
+
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
+const removeFromMyFavorite = async (idUser: string, idSong: string) => {
+  try {
+    const body = await callApi(
+      'put',
+      `${endpoint}/myFavorite/update/removeFromMyFavorite/${idUser}`,
+      {idSong},
+    );
+
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
+const getSongFromMyFavorite = async (idUser: string) => {
+  try {
+    const body = await callApi(
+      'get',
+      `${endpoint}/myFavorite/getOne/${idUser}`,
+    );
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
 const rootApi = {
   getAllAlbums,
   getSongByAlbum,
   login,
   register,
   createMyFavorite,
+  addToMyFavorite,
+  removeFromMyFavorite,
+  getSongFromMyFavorite,
 };
 
 export default rootApi;

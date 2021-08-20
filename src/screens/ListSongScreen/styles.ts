@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import dimensions, {spacing} from '../../constants/dimensions';
+import dimensions, {headerH, spacing} from '../../constants/dimensions';
 
 const imgBannerW = dimensions.w;
 const imgBannerH = dimensions.h * 0.7;
@@ -12,15 +12,21 @@ const styles = StyleSheet.create({
   imgBanner: {
     width: imgBannerW,
     height: imgBannerH,
+    marginBottom: -headerH,
   },
   listSong: {
     minHeight: dimensions.h - dimensions.statusbarH - spacing.normal * 2,
+    paddingTop: headerH,
   },
   loadingContainer: {
     width: imgBannerW,
     height: dimensions.h - imgBannerH,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  containerHeader: {
+    position: 'absolute',
+    zIndex: 100,
   },
 });
 

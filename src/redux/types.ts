@@ -11,4 +11,20 @@ const userType = {
   LOGIN: 'LOGIN',
 };
 
-export {currentSongType, listTrackType, userType};
+const myFavoriteType = {
+  ADD_SONG: 'ADD_SONG',
+  REMOVE_SONG: 'REMOVE_SONG',
+  GET_SONG: 'GET_SONG',
+};
+
+const indexDrawerType = {
+  SET_INDEX: 'SET_INDEX',
+};
+
+export {
+  currentSongType,
+  listTrackType,
+  userType,
+  myFavoriteType,
+  indexDrawerType,
+};

@@ -3,7 +3,7 @@ import React, {useRef} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {View, Text, FlatList, Animated} from 'react-native';
+import {View, Text, FlatList, Animated, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import rootApi from '../../api';
 import Loading from '../../components/Loading';
@@ -13,11 +13,16 @@ import {RootState} from '../../redux/reducers';
 import {SongType} from '../../types';
 
 import styles, {imgBannerH, imgBannerW} from './styles';
+import {addSongToMyFavorite} from '../../redux/actions/myFavoriteAction';
+import MyHeader from '../../components/MyHeader';
 
 const ListSongScreen = () => {
   const listTrack = useSelector((state: RootState) => state.listTrack);
+  const user = useSelector((state: RootState) => state.user);
   const route = useRoute();
   const {album} = route.params;
+  console.log(album);
+
   const [songs, setSongs] = useState<SongType[]>([]);
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -57,56 +62,79 @@ const ListSongScreen = () => {
     }
   };
 
+  const addToMyFavorite = async (song: SongType) => {
+    const res = await dispatch(addSongToMyFavorite(user._id, song));
+    console.log(res);
+    console.log(typeof res === 'string');
+
+    if (typeof res === 'string') {
+      Alert.alert('Lỗi', res);
+    } else {
+      Alert.alert('Thông báo', 'Add to success');
+    }
+  };
+
   useEffect(() => {
     getSongsData();
   }, []);
 
   return (
-    <Animated.ScrollView
-      onScroll={Animated.event(
-        [
-          {
-            nativeEvent: {
-              contentOffset: {y: scrollY},
-            },
-          },
-        ],
-        {useNativeDriver: true},
-      )}>
-      <View style={styles.center}>
-        <Animated.Image
-          source={{uri: album.image}}
-          style={[
-            styles.imgBanner,
-            {
-              transform: [
-                {
-                  scale: scale,
-                },
-              ],
-              opacity: scale,
-              borderRadius: borderRadius,
-            },
-          ]}
-        />
+    <View style={{flex: 1}}>
+      <View style={styles.containerHeader}>
+        <MyHeader title={album.name} canGoBack isDecoration />
       </View>
-      {songs.length > 0 ? (
-        <FlatList
-          data={songs}
-          style={styles.listSong}
-          keyExtractor={(item, index) => item._id + ''}
-          renderItem={({item, index}) => {
-            return (
-              <SongItem song={item} index={index} handlePress={handlePress} />
-            );
-          }}
-        />
-      ) : (
-        <View style={styles.loadingContainer}>
-          <Loading />
+      <Animated.ScrollView
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {y: scrollY},
+              },
+            },
+          ],
+          {useNativeDriver: true},
+        )}>
+        <View style={styles.center}>
+          <Animated.Image
+            source={{uri: album.image}}
+            style={[
+              styles.imgBanner,
+              {
+                transform: [
+                  {
+                    scale: scale,
+                  },
+                ],
+                opacity: scale,
+                borderRadius: borderRadius,
+              },
+            ]}
+          />
         </View>
-      )}
-    </Animated.ScrollView>
+        {songs.length > 0 ? (
+          <FlatList
+            data={songs}
+            style={[styles.listSong]}
+            keyExtractor={(item, index) => item._id + ''}
+            renderItem={({item, index}) => {
+              return (
+                <SongItem
+                  action={'favorite'}
+                  callbackAction={() => addToMyFavorite(item)}
+                  song={item}
+                  index={index}
+                  handlePress={handlePress}
+                />
+              );
+            }}
+          />
+        ) : (
+          <View style={styles.loadingContainer}>
+            <Loading />
+          </View>
+        )}
+      </Animated.ScrollView>
+    </View>
   );
 };
 
