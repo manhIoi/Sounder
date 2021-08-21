@@ -64,7 +64,8 @@ const MyFavoriteScreen = () => {
 
   useEffect(() => {
     dispatch(getSongFromMyFavorite(user._id));
-  }, []);
+    return;
+  }, [user._id]);
 
   useEffect(() => {
     console.log(myFavorite);

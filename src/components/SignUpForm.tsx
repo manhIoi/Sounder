@@ -93,80 +93,80 @@ const SignUpForm = ({showSignInForm}: {showSignInForm: () => void}) => {
 
   return (
     <View style={styles.container}>
-      <Animated.FlatList
-        data={formField}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  x: scrollX,
+      <View style={styles.heading}>
+        <Text style={styles.headingText}>Đăng ký</Text>
+      </View>
+      <View style={styles.listInput}>
+        <Animated.FlatList
+          data={formField}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    x: scrollX,
+                  },
                 },
               },
-            },
-          ],
-          {useNativeDriver: true},
-        )}
-        onMomentumScrollEnd={e => {
-          setCurrentIndex(
-            Math.ceil(e.nativeEvent.contentOffset.x / dimensions.w),
-          );
-        }}
-        contentContainerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        keyExtractor={(item, index) => index + ''}
-        renderItem={({item, index}) => {
-          return (
-            <View style={styles.wrapInput}>
-              <Text style={styles.label}>{item.label}</Text>
-              <MyTextInput
-                isAutoFocus={currentIndex === index}
-                placeholder={item.config.placeholder}
-                value={
-                  item.type === 'name'
-                    ? displayName
-                    : item.type === 'email'
-                    ? email
-                    : password
-                }
-                setValue={
-                  item.type === 'name'
-                    ? setDisplayName
-                    : item.type === 'email'
-                    ? setEmail
-                    : setPassword
-                }
-                leftIcon={item.leftIcon}
-              />
-            </View>
-          );
-        }}
-      />
-      <View style={styles.containerDots}>
-        <Dots scrollX={scrollX} acitveIndex={currentIndex} list={formField} />
+            ],
+            {useNativeDriver: true},
+          )}
+          onMomentumScrollEnd={e => {
+            setCurrentIndex(
+              Math.ceil(e.nativeEvent.contentOffset.x / dimensions.w),
+            );
+          }}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          keyExtractor={(item, index) => index + ''}
+          renderItem={({item, index}) => {
+            return (
+              <View style={styles.wrapInput}>
+                <Text style={styles.label}>{item.label}</Text>
+                <MyTextInput
+                  isAutoFocus={currentIndex === index}
+                  placeholder={item.config.placeholder}
+                  value={
+                    item.type === 'name'
+                      ? displayName
+                      : item.type === 'email'
+                      ? email
+                      : password
+                  }
+                  setValue={
+                    item.type === 'name'
+                      ? setDisplayName
+                      : item.type === 'email'
+                      ? setEmail
+                      : setPassword
+                  }
+                  leftIcon={item.leftIcon}
+                />
+              </View>
+            );
+          }}
+        />
+        <View style={styles.containerDots}>
+          <Dots scrollX={scrollX} acitveIndex={currentIndex} list={formField} />
+        </View>
       </View>
 
-      <View
-        style={{
-          height: authFormDimensions.h * 0.5,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.actions}>
         <View style={{marginBottom: spacing.normal}}>
           <PrimaryBtn
-            title="Sign Up"
+            title="Đăng ký"
             callback={signUp}
             uppercase
             // disable={!isCanSubmit}
           />
         </View>
         <PrimaryBtn
-          title="Sign In"
+          title="Đăng nhập"
           callback={showSignInForm}
           uppercase
           outline
@@ -183,6 +183,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  listInput: {
+    maxHeight: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.normal * 2,
+  },
   wrapInput: {
     width: dimensions.w,
     alignItems: 'center',
@@ -193,9 +199,20 @@ const styles = StyleSheet.create({
     marginBottom: spacing.normal,
   },
   containerDots: {
-    position: 'absolute',
-    bottom: authFormDimensions.h * 0.5,
     zIndex: 1000,
+  },
+  actions: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    justifyContent: 'center',
+    marginBottom: spacing.normal * 2,
+  },
+  headingText: {
+    fontFamily: rootFonts.extraBold,
+    color: rootColor.primaryColor,
+    fontSize: 30,
   },
 });
 

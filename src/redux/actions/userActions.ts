@@ -26,4 +26,10 @@ const login = (email: string, password: string) => async dispatch => {
   }
 };
 
-export {login};
+const logout = () => {
+  return {
+    type: userType.LOGOUT,
+  };
+};
+
+export {login, logout};

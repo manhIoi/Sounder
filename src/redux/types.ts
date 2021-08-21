@@ -9,6 +9,7 @@ const listTrackType = {
 
 const userType = {
   LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
 };
 
 const myFavoriteType = {

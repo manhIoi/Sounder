@@ -5,6 +5,8 @@ const userReducer = (state = {}, action: ActionType) => {
   switch (action.type) {
     case userType.LOGIN:
       return action.payload;
+    case userType.LOGOUT:
+      return {};
     default:
       return state;
   }

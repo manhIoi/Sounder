@@ -26,7 +26,7 @@ const rangeItemCurrentSong = {
 
 const authFormDimensions = {
   w: dimensions.w,
-  h: dimensions.h * 0.4,
+  h: dimensions.h * 0.6,
 };
 
 const bottomTabDimension = {

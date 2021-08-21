@@ -31,6 +31,7 @@ import {RootState} from '../../redux/reducers';
 import {setListTrack} from '../../redux/actions/listTrackAction';
 import {setCurrentSong} from '../../redux/actions/currentSongAction';
 import Feather from 'react-native-vector-icons/Feather';
+import Loading from '../../components/Loading';
 
 const {w, h, widthImg, heightImg, containerH, detailW, detailH} =
   rangeItemCurrentSong;
@@ -151,42 +152,54 @@ const CurrentSongScreen = () => {
 
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          width: w,
-          height: headerH,
-          marginTop: dimensions.statusbarH,
-        }}>
-        <TouchableOpacity
-          onPress={() => dispatch(setListTrack({isOpenCurrentSong: false}))}
-          style={{
-            height: headerH,
-            aspectRatio: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 2000,
-          }}>
-          <Feather name="chevron-down" size={25} color={rootColor.whiteColor} />
-        </TouchableOpacity>
-      </View>
-      <Overlay scrollX={scrollX} listSong={listTrack.listSong} />
-      <DetailSongs
-        progress={progress}
-        scrollX={scrollX}
-        listSong={listTrack.listSong}
-        setIndexCurrentSong={setIndexCurrentSong}
-        defaultIndex={listTrack.songSelected}
-        currentIndex={listTrack.songSelected}
-      />
-      <PlayerSong
-        sliderValue={sliderValue}
-        slidingStarted={slidingStarted}
-        slidingCompleted={slidingCompleted}
-        onButtonPressed={onButtonPressed}
-        setIndexCurrentSong={setIndexCurrentSong}
-      />
+      {!isTrackPlayerInit ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Loading />
+        </View>
+      ) : (
+        <>
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: w,
+              height: headerH,
+              marginTop: dimensions.statusbarH,
+            }}>
+            <TouchableOpacity
+              onPress={() => dispatch(setListTrack({isOpenCurrentSong: false}))}
+              style={{
+                height: headerH,
+                aspectRatio: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 2000,
+              }}>
+              <Feather
+                name="chevron-down"
+                size={25}
+                color={rootColor.whiteColor}
+              />
+            </TouchableOpacity>
+          </View>
+          <Overlay scrollX={scrollX} listSong={listTrack.listSong} />
+          <DetailSongs
+            progress={progress}
+            scrollX={scrollX}
+            listSong={listTrack.listSong}
+            setIndexCurrentSong={setIndexCurrentSong}
+            defaultIndex={listTrack.songSelected}
+            currentIndex={listTrack.songSelected}
+          />
+          <PlayerSong
+            sliderValue={sliderValue}
+            slidingStarted={slidingStarted}
+            slidingCompleted={slidingCompleted}
+            onButtonPressed={onButtonPressed}
+            setIndexCurrentSong={setIndexCurrentSong}
+          />
+        </>
+      )}
     </View>
   );
 };

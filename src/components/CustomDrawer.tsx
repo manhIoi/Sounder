@@ -12,12 +12,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import rootColor from '../constants/colors';
-import {spacing} from '../constants/dimensions';
+import dimensions, {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/reducers';
 import {setListTrack} from '../redux/actions/listTrackAction';
+import {logout} from '../redux/actions/userActions';
+import MyAlert from './MyAlert';
 
 const listDrawerItem = [
   {
@@ -31,7 +33,7 @@ const listDrawerItem = [
     icon: (color: string) => <AntDesign name="heart" size={20} color={color} />,
   },
   {
-    name: 'AccountScreen',
+    name: 'AccountStack',
     label: 'Tài khoản',
     icon: (color: string) => <Feather name="user" size={20} color={color} />,
   },
@@ -40,9 +42,17 @@ const listDrawerItem = [
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   const indexDrawer = useSelector((state: RootState) => state.indexDrawer);
+  const user = useSelector((state: RootState) => state.user);
+  const [isShowAlert, setIsShowAlert] = useState(false);
   const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, paddingTop: dimensions.statusbarH}}>
+      <View style={styles.appName}>
+        <Text style={styles.appNameText}>Sounder</Text>
+      </View>
       <DrawerContentScrollView>
         {listDrawerItem.map((item, index) => (
           <DrawerItem
@@ -66,12 +76,27 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           />
         ))}
       </DrawerContentScrollView>
-      <TouchableOpacity style={styles.logoutBtn}>
-        <View style={styles.logoutWrap}>
-          <MaterialIcons name="logout" size={25} color={rootColor.whiteColor} />
-          <Text style={styles.logoutText}>Đăng xuất</Text>
-        </View>
-      </TouchableOpacity>
+      {user._id && (
+        <TouchableOpacity
+          style={styles.logoutBtn}
+          onPress={() => setIsShowAlert(true)}>
+          <View style={styles.logoutWrap}>
+            <MaterialIcons
+              name="logout"
+              size={25}
+              color={rootColor.whiteColor}
+            />
+            <Text style={styles.logoutText}>Đăng xuất</Text>
+          </View>
+        </TouchableOpacity>
+      )}
+      <MyAlert
+        state={isShowAlert}
+        title="Bạn có muốn thoát"
+        setState={setIsShowAlert}
+        isConfirm
+        callbackConfirm={handleLogout}
+      />
     </View>
   );
 };
@@ -96,6 +121,17 @@ const styles = StyleSheet.create({
     color: rootColor.whiteColor,
     fontSize: 20,
     marginLeft: spacing.normal,
+  },
+  appName: {
+    minHeight: dimensions.h * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  appNameText: {
+    color: rootColor.whiteColor,
+    fontFamily: rootFonts.extraBold,
+    fontSize: 35,
+    textAlign: 'center',
   },
 });
 

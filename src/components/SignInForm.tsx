@@ -39,27 +39,40 @@ const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
 
   return (
     <View style={styles.container}>
-      <MyTextInput
-        leftIcon={
-          <AntDesign name="user" color={rootColor.primaryColor} size={20} />
-        }
-        placeholder="Email"
-        value={email}
-        setValue={setEmail}
-      />
-      <MyTextInput
-        placeholder="Password"
-        value={password}
-        setValue={setPassword}
-        secureText
-        leftIcon={
-          <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
-        }
-      />
-      <View style={{marginBottom: spacing.normal}}>
-        <PrimaryBtn callback={signIn} title="Sign In" uppercase />
+      <View style={styles.heading}>
+        <Text style={styles.headingText}>Đăng nhập</Text>
       </View>
-      <PrimaryBtn callback={showSignUpForm} title="Sign Up" uppercase outline />
+      <View style={styles.fields}>
+        <MyTextInput
+          leftIcon={
+            <AntDesign name="user" color={rootColor.primaryColor} size={20} />
+          }
+          placeholder="Email"
+          value={email}
+          setValue={setEmail}
+        />
+        <MyTextInput
+          placeholder="Password"
+          value={password}
+          setValue={setPassword}
+          secureText
+          leftIcon={
+            <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
+          }
+        />
+      </View>
+
+      <View style={styles.actions}>
+        <View style={{marginBottom: spacing.normal}}>
+          <PrimaryBtn callback={signIn} title="Đăng nhập" uppercase />
+        </View>
+        <PrimaryBtn
+          callback={showSignUpForm}
+          title="Đăng ký"
+          uppercase
+          outline
+        />
+      </View>
     </View>
   );
 };
@@ -68,6 +81,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: dimensions.w,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    justifyContent: 'center',
+    marginBottom: spacing.normal * 2,
+  },
+  headingText: {
+    fontFamily: rootFonts.extraBold,
+    color: rootColor.primaryColor,
+    fontSize: 30,
+  },
+  fields: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.normal * 2,
+  },
+  actions: {
     justifyContent: 'center',
     alignItems: 'center',
   },

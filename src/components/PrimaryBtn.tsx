@@ -19,7 +19,6 @@ const PrimaryBtn = ({
   outline?: boolean;
   uppercase?: boolean;
   disable?: boolean;
-  //   isLoading?: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const pressBtn = () => {
@@ -27,7 +26,7 @@ const PrimaryBtn = ({
     callback();
     setTimeout(() => {
       setIsLoading(false);
-    }, 200);
+    }, 3000);
   };
   return (
     <TouchableScale

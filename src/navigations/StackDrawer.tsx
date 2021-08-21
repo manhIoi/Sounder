@@ -8,6 +8,7 @@ import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
 import HomeStack from './HomeStack';
 import MyTab from './MyTab';
 import MyFavoriteScreen from '../screens/MyFavoriteScreen/MyFavoriteScreen';
+import AccountStack from './AccountStack';
 
 const Stack = createStackNavigator();
 
@@ -59,6 +60,7 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}>
         <Stack.Screen name="HomeStack" component={HomeStack} />
+        <Stack.Screen name="AccountStack" component={AccountStack} />
       </Stack.Navigator>
     </Animated.View>
   );
