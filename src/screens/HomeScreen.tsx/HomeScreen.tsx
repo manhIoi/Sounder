@@ -74,7 +74,10 @@ const HomeScreen = () => {
                 </Text>
               </TouchableOpacity>
             ) : (
-              <CustomAvatar name={user.displayName} />
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AccountStack')}>
+                <CustomAvatar name={user.displayName} />
+              </TouchableOpacity>
             )}
           </Animated.View>
           <Animated.ScrollView
@@ -102,7 +105,10 @@ const HomeScreen = () => {
                   <Text style={styles.loginText}>Đăng nhập</Text>
                 </TouchableOpacity>
               ) : (
-                <CustomAvatar name={user.displayName} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('AccountStack')}>
+                  <CustomAvatar name={user.displayName} />
+                </TouchableOpacity>
               )}
             </Animated.View>
             {albums && <MasonryList albums={albums} />}

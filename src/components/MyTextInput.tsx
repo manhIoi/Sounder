@@ -7,6 +7,7 @@ import {View, Text, TextInput, StyleSheet, Keyboard} from 'react-native';
 import rootColor from '../constants/colors';
 import dimensions, {spacing} from '../constants/dimensions';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {rootFonts} from '../constants/fonts';
 
 const MyTextInput = ({
   placeholder,
@@ -66,6 +67,8 @@ const style = StyleSheet.create({
   textInput: {
     flex: 1,
     color: rootColor.grayTextColor,
+    fontFamily: rootFonts.regular,
+    fontSize: 18,
   },
   icon: {
     height: '75%',

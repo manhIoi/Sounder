@@ -19,6 +19,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacing.normal,
   },
+
+  settingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: spacing.normal,
+  },
+  settingText: {
+    marginLeft: spacing.normal,
+    fontFamily: rootFonts.medium,
+    fontSize: 18,
+  },
 });
 
 export default styles;

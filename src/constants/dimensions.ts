@@ -35,6 +35,7 @@ const bottomTabDimension = {
 };
 
 const headerH = dimensions.h * 0.07;
+const actionItemH = 50;
 
 export default dimensions;
 export {
@@ -43,4 +44,5 @@ export {
   headerH,
   authFormDimensions,
   bottomTabDimension,
+  actionItemH,
 };

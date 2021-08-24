@@ -15,6 +15,7 @@ import rootColor from '../../constants/colors';
 import {logout} from '../../redux/actions/userActions';
 import {useState} from 'react';
 import MyAlert from '../../components/MyAlert';
+import ActionItem from '../../components/ActionItem';
 
 const AccountScreen = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -47,28 +48,31 @@ const AccountScreen = () => {
             row
             isCircle
           />
-          <TouchableOpacity
-            style={styles.settingContainer}
-            activeOpacity={0.5}
-            onPress={() => navigation.push('SettingScreen')}>
-            <Feather name="user" color={rootColor.primaryColor} size={20} />
-            <Text style={styles.settingText}>Đổi thông tin người dùng</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.settingContainer} activeOpacity={0.5}>
-            <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
-            <Text style={styles.settingText}>Đổi mật khẩu</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.settingContainer}
-            activeOpacity={0.5}
-            onPress={() => setIsShowAlert(true)}>
-            <MaterialIcons
-              name="logout"
-              size={22}
-              color={rootColor.primaryColor}
-            />
-            <Text style={styles.settingText}>Đăng xuất</Text>
-          </TouchableOpacity>
+          <ActionItem
+            title="Đổi thông tin người dùng"
+            callback={() => navigation.push('SettingScreen')}
+            icon={
+              <Feather name="user" color={rootColor.primaryColor} size={20} />
+            }
+          />
+          <ActionItem
+            title="Đổi mật khẩu"
+            callback={() => console.log('change password')}
+            icon={
+              <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
+            }
+          />
+          <ActionItem
+            title="Đăng xuất"
+            callback={() => setIsShowAlert(true)}
+            icon={
+              <MaterialIcons
+                name="logout"
+                size={22}
+                color={rootColor.primaryColor}
+              />
+            }
+          />
         </>
       )}
       <MyAlert
