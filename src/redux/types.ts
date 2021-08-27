@@ -10,6 +10,7 @@ const listTrackType = {
 const userType = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
+  UPDATE_USER: 'UPDATE_USER',
 };
 
 const myFavoriteType = {
@@ -22,10 +23,16 @@ const indexDrawerType = {
   SET_INDEX: 'SET_INDEX',
 };
 
+const alertType = {
+  SHOW_ALERT: 'SHOW_ALERT',
+  HIDE_ALERT: 'HIDE_ALERT',
+};
+
 export {
   currentSongType,
   listTrackType,
   userType,
   myFavoriteType,
   indexDrawerType,
+  alertType,
 };

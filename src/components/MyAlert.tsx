@@ -1,44 +1,35 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import {useDispatch, useSelector} from 'react-redux';
 import rootColor from '../constants/colors';
 import {rootFonts} from '../constants/fonts';
+import {hideAlertAction} from '../redux/actions/alertActions';
+import {RootState} from '../redux/reducers';
 
-const MyAlert = ({
-  title,
-  message,
-  isConfirm,
-  callbackConfirm,
-  state,
-  setState,
-}: {
-  state: boolean;
-  setState: (value: boolean) => void;
-  title: string;
-  message?: string;
-  isConfirm?: boolean;
-  callbackConfirm?: () => void;
-}) => {
+const MyAlert = () => {
+  const alertReducer = useSelector((state: RootState) => state.alertReducer);
+  const dispatch = useDispatch();
   const hideAlert = () => {
-    setState(false);
+    dispatch(hideAlertAction());
   };
   const handleConfirm = () => {
-    if (callbackConfirm) {
-      callbackConfirm();
+    if (alertReducer.callbackConfirm) {
+      alertReducer.callbackConfirm();
       hideAlert();
     }
   };
   return (
     <AwesomeAlert
-      show={state}
+      show={alertReducer.isShow}
       showProgress={false}
-      title={title}
-      message={message}
+      title={alertReducer.title}
+      message={alertReducer.message}
       closeOnTouchOutside={true}
       closeOnHardwareBackPress={false}
       showCancelButton={true}
-      showConfirmButton={isConfirm ? true : false}
-      cancelText="Hủy bỏ"
+      showConfirmButton={alertReducer.isConfirm ? true : false}
+      cancelText="Đóng"
       confirmText="Xác nhận"
       confirmButtonColor={rootColor.primaryColor}
       onCancelPressed={hideAlert}

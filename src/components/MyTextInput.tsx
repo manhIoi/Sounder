@@ -17,12 +17,14 @@ const MyTextInput = ({
   leftIcon,
   rightIcon,
   setValue,
+  style,
 }: {
   placeholder: string;
   value: string;
   secureText?: boolean;
   isAutoFocus?: boolean;
   refTextInput?: any;
+  style?: object;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   setValue: (text: string) => void;
@@ -37,24 +39,24 @@ const MyTextInput = ({
   }, [isAutoFocus]);
 
   return (
-    <View style={style.container}>
-      {leftIcon && <View style={style.icon}>{leftIcon}</View>}
+    <View style={styles.container}>
+      {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
       <TextInput
         ref={ref}
         placeholder={placeholder}
         value={value}
         onChangeText={text => setValue(text)}
-        style={style.textInput}
+        style={[styles.textInput, style]}
         secureTextEntry={secureText}
         blurOnSubmit={false}
         enablesReturnKeyAutomatically={true}
       />
-      {rightIcon && <View style={style.icon}>{rightIcon}</View>}
+      {rightIcon && <View style={styles.icon}>{rightIcon}</View>}
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: dimensions.w * 0.6,
     height: 50,

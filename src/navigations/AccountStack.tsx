@@ -10,6 +10,7 @@ import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setIndex} from '../redux/actions/indexDrawerAction';
 import SettingScreen from '../screens/SettingScreen/SettingScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen/ChangePasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,10 @@ const AccountStack = () => {
       }}>
       <Stack.Screen name="AccountScreen" component={AccountScreen} />
       <Stack.Screen name="SettingScreen" component={SettingScreen} />
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+      />
     </Stack.Navigator>
   );
 };

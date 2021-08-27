@@ -16,11 +16,10 @@ import styles, {imgBannerH, imgBannerW} from './styles';
 import {addSongToMyFavorite} from '../../redux/actions/myFavoriteAction';
 import MyHeader from '../../components/MyHeader';
 import MyAlert from '../../components/MyAlert';
+import {showAlertAction} from '../../redux/actions/alertActions';
 
 const ListSongScreen = () => {
   const listTrack = useSelector((state: RootState) => state.listTrack);
-  const [isShowAlert, setIsShowAlert] = useState(false);
-  const [message, setMessage] = useState('');
   const user = useSelector((state: RootState) => state.user);
   const route = useRoute();
   const {album} = route.params;
@@ -66,11 +65,10 @@ const ListSongScreen = () => {
 
   const addToMyFavorite = async (song: SongType) => {
     const res = await dispatch(addSongToMyFavorite(user._id, song));
-    setIsShowAlert(true);
     if (typeof res === 'string') {
-      setMessage(res);
+      dispatch(showAlertAction({title: 'Lỗi', message: res}));
     } else {
-      setMessage('Thêm thành công');
+      dispatch(showAlertAction({title: 'Thêm thành công'}));
     }
   };
 
@@ -134,12 +132,6 @@ const ListSongScreen = () => {
           </View>
         )}
       </Animated.ScrollView>
-      <MyAlert
-        state={isShowAlert}
-        title="Thông báo"
-        message={message}
-        setState={setIsShowAlert}
-      />
     </View>
   );
 };

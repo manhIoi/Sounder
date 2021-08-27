@@ -9,6 +9,7 @@ import MyHeader from '../../components/MyHeader';
 import PrimaryBtn from '../../components/PrimaryBtn';
 import SongItem from '../../components/SongItem';
 import rootColor from '../../constants/colors';
+import {showAlertAction} from '../../redux/actions/alertActions';
 import {setIndex} from '../../redux/actions/indexDrawerAction';
 import {setListTrack} from '../../redux/actions/listTrackAction';
 import {
@@ -56,9 +57,9 @@ const MyFavoriteScreen = () => {
     console.log(typeof res === 'string');
 
     if (typeof res === 'string') {
-      Alert.alert('Lỗi', res);
+      dispatch(showAlertAction({title: 'Lỗi', message: res}));
     } else {
-      Alert.alert('Thông báo', 'Remove success');
+      dispatch(showAlertAction({title: 'Xóa thành công'}));
     }
   };
 

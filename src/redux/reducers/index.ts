@@ -3,6 +3,7 @@ import currentSongReducer from './currentSongReducer';
 import indexDrawerReducer from './indexDrawerReducer';
 import listTrackReducer from './listTrackReducer';
 import myFavoriteReducer from './myFavoriteReducer';
+import alertReducer from './alertReducer';
 import userReducer from './userReducer';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   myFavorite: myFavoriteReducer,
   indexDrawer: indexDrawerReducer,
+  alertReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

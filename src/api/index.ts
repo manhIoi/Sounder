@@ -112,6 +112,20 @@ const getSongFromMyFavorite = async (idUser: string) => {
   }
 };
 
+const updateInfoUser = async (idUser: string, data: any, authToken: string) => {
+  try {
+    const body = await callApi('put', `${endpoint}/users/updateInfo`, {
+      idUser,
+      data,
+      authToken,
+    });
+
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
 const rootApi = {
   getAllAlbums,
   getSongByAlbum,
@@ -121,6 +135,7 @@ const rootApi = {
   addToMyFavorite,
   removeFromMyFavorite,
   getSongFromMyFavorite,
+  updateInfoUser,
 };
 
 export default rootApi;

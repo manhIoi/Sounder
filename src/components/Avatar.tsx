@@ -33,6 +33,7 @@ const Avatar = ({
               width: sizeImage,
               aspectRatio: 1,
               borderRadius: isCircle ? sizeImage : sizeImage / 10,
+              margin: spacing.normal,
             },
           ]}
         />

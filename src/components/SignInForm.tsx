@@ -16,6 +16,7 @@ import MyTextInput from './MyTextInput';
 import PrimaryBtn from './PrimaryBtn';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Alert} from 'react-native';
+import {showAlertAction} from '../redux/actions/alertActions';
 
 const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
   const user = useSelector((state: RootState) => state.user);
@@ -27,7 +28,7 @@ const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
   const signIn = async () => {
     const res = await dispatch(login(email, password));
     if (res?.error) {
-      Alert.alert('Thông báo', res.error);
+      dispatch(showAlertAction({title: 'Thông báo', message: res.error}));
     }
   };
 

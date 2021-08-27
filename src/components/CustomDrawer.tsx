@@ -3,7 +3,6 @@ import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerNavigationProp,
-  useDrawerProgress,
 } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
@@ -14,12 +13,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import rootColor from '../constants/colors';
 import dimensions, {spacing} from '../constants/dimensions';
 import {rootFonts} from '../constants/fonts';
-import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/reducers';
 import {setListTrack} from '../redux/actions/listTrackAction';
 import {logout} from '../redux/actions/userActions';
-import MyAlert from './MyAlert';
+import {showAlertAction} from '../redux/actions/alertActions';
 
 const listDrawerItem = [
   {
@@ -43,7 +41,6 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   const indexDrawer = useSelector((state: RootState) => state.indexDrawer);
   const user = useSelector((state: RootState) => state.user);
-  const [isShowAlert, setIsShowAlert] = useState(false);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
@@ -79,7 +76,15 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
       {user._id && (
         <TouchableOpacity
           style={styles.logoutBtn}
-          onPress={() => setIsShowAlert(true)}>
+          onPress={() =>
+            dispatch(
+              showAlertAction({
+                title: 'Bạn có chắc muốn thoát?',
+                callbackConfirm: handleLogout,
+                isConfirm: true,
+              }),
+            )
+          }>
           <View style={styles.logoutWrap}>
             <MaterialIcons
               name="logout"
@@ -90,13 +95,6 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           </View>
         </TouchableOpacity>
       )}
-      <MyAlert
-        state={isShowAlert}
-        title="Bạn có muốn thoát"
-        setState={setIsShowAlert}
-        isConfirm
-        callbackConfirm={handleLogout}
-      />
     </View>
   );
 };

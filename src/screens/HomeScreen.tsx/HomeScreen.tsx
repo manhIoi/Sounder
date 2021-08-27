@@ -15,6 +15,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import CustomAvatar from '../../components/CustomAvatar';
 import {setIndex} from '../../redux/actions/indexDrawerAction';
+import Avatar from '../../components/Avatar';
 
 const HomeScreen = () => {
   const [albums, setAlbums] = useState<AlbumType[]>([]);
@@ -75,8 +76,15 @@ const HomeScreen = () => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
+                activeOpacity={0.5}
                 onPress={() => navigation.navigate('AccountStack')}>
-                <CustomAvatar name={user.displayName} />
+                <Avatar
+                  image={user.image}
+                  name={user.displayName}
+                  hideName
+                  sizeImage={40}
+                  isCircle
+                />
               </TouchableOpacity>
             )}
           </Animated.View>
@@ -106,8 +114,15 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
+                  activeOpacity={0.5}
                   onPress={() => navigation.navigate('AccountStack')}>
-                  <CustomAvatar name={user.displayName} />
+                  <Avatar
+                    image={user.image}
+                    name={user.displayName}
+                    hideName
+                    sizeImage={40}
+                    isCircle
+                  />
                 </TouchableOpacity>
               )}
             </Animated.View>

@@ -32,4 +32,22 @@ const logout = () => {
   };
 };
 
-export {login, logout};
+const updateUser =
+  (idUser: string, data: any, authToken: string) => async dispatch => {
+    try {
+      console.log(idUser, data, authToken);
+
+      const body = await rootApi.updateInfoUser(idUser, data, authToken);
+      console.log(body);
+      if (body._id) {
+        return dispatch({
+          type: userType.UPDATE_USER,
+          payload: body,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export {login, logout, updateUser};

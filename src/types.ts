@@ -31,4 +31,12 @@ interface ActionType {
   payload?: any;
 }
 
-export type {SongType, AlbumType, ActionType};
+interface AlertType {
+  isShow?: boolean;
+  message?: string;
+  title?: string;
+  isConfirm?: boolean;
+  callbackConfirm?: () => void;
+}
+
+export type {SongType, AlbumType, ActionType, AlertType};

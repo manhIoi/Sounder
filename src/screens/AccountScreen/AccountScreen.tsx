@@ -16,10 +16,10 @@ import {logout} from '../../redux/actions/userActions';
 import {useState} from 'react';
 import MyAlert from '../../components/MyAlert';
 import ActionItem from '../../components/ActionItem';
+import {showAlertAction} from '../../redux/actions/alertActions';
 
 const AccountScreen = () => {
   const user = useSelector((state: RootState) => state.user);
-  const [isShowAlert, setIsShowAlert] = useState(false);
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
 
@@ -42,6 +42,7 @@ const AccountScreen = () => {
       ) : (
         <>
           <Avatar
+            image={user.image}
             name={user.displayName}
             description={user.email}
             sizeImage={80}
@@ -57,14 +58,22 @@ const AccountScreen = () => {
           />
           <ActionItem
             title="Đổi mật khẩu"
-            callback={() => console.log('change password')}
+            callback={() => navigation.navigate('ChangePasswordScreen')}
             icon={
               <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
             }
           />
           <ActionItem
             title="Đăng xuất"
-            callback={() => setIsShowAlert(true)}
+            callback={() =>
+              dispatch(
+                showAlertAction({
+                  title: 'Bạn có chắc muốn thoát ?',
+                  callbackConfirm: handleLogout,
+                  isConfirm: true,
+                }),
+              )
+            }
             icon={
               <MaterialIcons
                 name="logout"
@@ -75,13 +84,6 @@ const AccountScreen = () => {
           />
         </>
       )}
-      <MyAlert
-        state={isShowAlert}
-        title="Bạn có muốn thoát"
-        setState={setIsShowAlert}
-        isConfirm
-        callbackConfirm={handleLogout}
-      />
     </View>
   );
 };

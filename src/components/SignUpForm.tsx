@@ -17,6 +17,7 @@ import {useDispatch} from 'react-redux';
 import {login} from '../redux/actions/userActions';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {showAlertAction} from '../redux/actions/alertActions';
 
 const formField = [
   {
@@ -77,7 +78,7 @@ const SignUpForm = ({showSignInForm}: {showSignInForm: () => void}) => {
       });
 
       if (!res.body) {
-        Alert.alert('Lỗi', res);
+        dispatch(showAlertAction({title: 'Lỗi', message: res}));
       } else {
         const isCreateMyFavorite = await rootApi.createMyFavorite(res.body._id);
         console.log(isCreateMyFavorite);
