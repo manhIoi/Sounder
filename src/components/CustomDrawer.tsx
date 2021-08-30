@@ -18,6 +18,9 @@ import {RootState} from '../redux/reducers';
 import {setListTrack} from '../redux/actions/listTrackAction';
 import {logout} from '../redux/actions/userActions';
 import {showAlertAction} from '../redux/actions/alertActions';
+import Avatar from './Avatar';
+import {Transition, Transitioning} from 'react-native-reanimated';
+import {useRef} from 'react';
 
 const listDrawerItem = [
   {
@@ -35,21 +38,38 @@ const listDrawerItem = [
     label: 'Tài khoản',
     icon: (color: string) => <Feather name="user" size={20} color={color} />,
   },
+  // {
+  //   name: 'TestScreen',
+  //   label: 'TestScreen',
+  //   icon: (color: string) => <Feather name="user" size={20} color={color} />,
+  // },
 ];
 
-const CustomDrawer = (props: DrawerContentComponentProps) => {
+const CustomDrawer = ({closeDrawer}: {closeDrawer: () => void}) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   const indexDrawer = useSelector((state: RootState) => state.indexDrawer);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
+    closeDrawer();
   };
   return (
     <View style={{flex: 1, paddingTop: dimensions.statusbarH}}>
       <View style={styles.appName}>
         <Text style={styles.appNameText}>Sounder</Text>
       </View>
+      {user._id && (
+        <View style={{alignItems: 'center'}}>
+          <Avatar
+            image={user.image}
+            name={user.displayName}
+            tintColor={rootColor.whiteColor}
+            sizeImage={dimensions.w * 0.4}
+          />
+        </View>
+      )}
+
       <DrawerContentScrollView>
         {listDrawerItem.map((item, index) => (
           <DrawerItem

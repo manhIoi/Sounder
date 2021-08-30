@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  image: StyleSheet.absoluteFillObject,
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    width: dimensions.w,
+    height: dimensions.h,
+  },
   container: {
     width: dimensions.w,
     height: dimensions.h * 0.3,
@@ -49,11 +53,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   closeBtn: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     backgroundColor: rootColor.primaryColor,
     borderRadius: 50,
-    margin: -20,
+    margin: -30,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',

@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import rootColor from '../constants/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import TouchableScale from 'react-native-touchable-scale';
+import {actionItemH, spacing} from '../constants/dimensions';
 
 const SongActions = ({
   type,
@@ -36,18 +37,28 @@ const SongActions = ({
       onPress={callback}
       style={{
         height: '100%',
+        padding: spacing.normal * 2,
         aspectRatio: 1,
         alignSelf: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:
-          type === 'delete'
-            ? '#dc3545'
-            : type === 'favorite'
-            ? rootColor.primaryColor
-            : rootColor.secondaryColor,
       }}>
-      {render()}
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius: 100,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor:
+            type === 'delete'
+              ? '#dc3545'
+              : type === 'favorite'
+              ? rootColor.primaryColor
+              : rootColor.secondaryColor,
+        }}>
+        {render()}
+      </View>
     </TouchableScale>
   );
 };

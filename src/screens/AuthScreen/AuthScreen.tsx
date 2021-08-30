@@ -3,10 +3,9 @@ import {useRef} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {View, Text, Animated} from 'react-native';
-import {Image} from 'react-native-animatable';
 import TouchableScale from 'react-native-touchable-scale';
-import dimensions, {authFormDimensions} from '../../constants/dimensions';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {authFormDimensions} from '../../constants/dimensions';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import rootColor from '../../constants/colors';
 import SignInForm from '../../components/SignInForm';
@@ -56,9 +55,7 @@ const AuthScreen = () => {
   return (
     <View style={styles.screen}>
       <Animated.Image
-        source={{
-          uri: 'https://nhrwallpapers.com/wp-content/uploads/2021/03/Cool-iPhone-Wallpaper-HD.jpg',
-        }}
+        source={require('../../assets/images/Auth_bg.jpg')}
         style={[
           styles.image,
           {
@@ -122,7 +119,7 @@ const AuthScreen = () => {
             },
           ]}
           onPress={closeForm}>
-          <AntDesign name="close" size={20} color={rootColor.whiteColor} />
+          <FontAwesome name="close" size={30} color={rootColor.whiteColor} />
         </CloseBtn>
         {action ? (
           <SignUpForm showSignInForm={showSignInForm} />

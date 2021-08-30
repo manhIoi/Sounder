@@ -17,6 +17,11 @@ const Drawer = createDrawerNavigator();
 const MainDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const closeDrawer = () => {
+    console.log('close drawer');
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     console.log(isOpen);
   }, [isOpen]);
@@ -30,7 +35,7 @@ const MainDrawer = () => {
         } else {
           setIsOpen(false);
         }
-        return <CustomDrawer {...props} />;
+        return <CustomDrawer closeDrawer={closeDrawer} />;
       }}
       screenOptions={{
         headerShown: false,

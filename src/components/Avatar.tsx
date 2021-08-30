@@ -13,6 +13,7 @@ const Avatar = ({
   sizeImage,
   isCircle,
   hideName,
+  tintColor,
 }: {
   name?: string;
   hideName?: boolean;
@@ -21,6 +22,7 @@ const Avatar = ({
   image?: string;
   sizeImage: number;
   isCircle?: boolean;
+  tintColor?: string;
 }) => {
   return (
     <View style={[styles.container, row && {flexDirection: 'row'}]}>
@@ -61,8 +63,16 @@ const Avatar = ({
               alignItems: 'center',
             },
           ]}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.description}>{description}</Text>
+          <Text style={[styles.name, {color: tintColor ? tintColor : '#111'}]}>
+            {name}
+          </Text>
+          <Text
+            style={[
+              styles.description,
+              {color: tintColor ? tintColor : '#111'},
+            ]}>
+            {description}
+          </Text>
         </View>
       )}
     </View>

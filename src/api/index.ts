@@ -31,11 +31,16 @@ const getSongByAlbum = async (idAlbum: any) => {
   }
 };
 
-const login = async (email: string, password: string) => {
+const login = async (
+  email?: string | null,
+  password?: string | null,
+  authToken?: string,
+) => {
   try {
     const body = await callApi('post', `${endpoint}/users/login`, {
       email,
       password,
+      authToken,
     });
     return body.data;
   } catch (error) {
@@ -126,6 +131,37 @@ const updateInfoUser = async (idUser: string, data: any, authToken: string) => {
   }
 };
 
+const checkPassword = async (
+  idUser: string,
+  password: string,
+  authToken: string,
+) => {
+  try {
+    console.log(authToken, password, idUser);
+
+    const body = await callApi('put', `${endpoint}/users/checkPassword`, {
+      password,
+      _id: idUser,
+      authToken,
+    });
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
+const changePassword = async (authToken: string, newPassword: string) => {
+  try {
+    const body = await callApi('put', `${endpoint}/users/changePassword`, {
+      authToken,
+      newPassword,
+    });
+    return body.data;
+  } catch (error) {
+    console.log(error, 'from api');
+  }
+};
+
 const rootApi = {
   getAllAlbums,
   getSongByAlbum,
@@ -136,6 +172,8 @@ const rootApi = {
   removeFromMyFavorite,
   getSongFromMyFavorite,
   updateInfoUser,
+  checkPassword,
+  changePassword,
 };
 
 export default rootApi;

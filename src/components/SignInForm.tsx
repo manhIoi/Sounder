@@ -1,11 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
-import {useEffect} from 'react';
-import {useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {View, Text} from 'react-native';
-import TouchableScale from 'react-native-touchable-scale';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import rootColor from '../constants/colors';
 import dimensions, {spacing} from '../constants/dimensions';
@@ -15,7 +11,7 @@ import {RootState} from '../redux/reducers';
 import MyTextInput from './MyTextInput';
 import PrimaryBtn from './PrimaryBtn';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Alert} from 'react-native';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {showAlertAction} from '../redux/actions/alertActions';
 
 const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
@@ -46,7 +42,7 @@ const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
       <View style={styles.fields}>
         <MyTextInput
           leftIcon={
-            <AntDesign name="user" color={rootColor.primaryColor} size={20} />
+            <AntDesign name="user" color={rootColor.whiteColor} size={20} />
           }
           placeholder="Email"
           value={email}
@@ -58,7 +54,7 @@ const SignInForm = ({showSignUpForm}: {showSignUpForm: () => void}) => {
           setValue={setPassword}
           secureText
           leftIcon={
-            <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
+            <AntDesign name="lock" color={rootColor.whiteColor} size={20} />
           }
         />
       </View>

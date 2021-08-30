@@ -11,6 +11,7 @@ const userType = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
   UPDATE_USER: 'UPDATE_USER',
+  CHANGE_PASSWORD: 'CHANGE_PASSWORD',
 };
 
 const myFavoriteType = {

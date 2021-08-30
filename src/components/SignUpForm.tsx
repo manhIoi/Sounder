@@ -29,7 +29,7 @@ const formField = [
       placeholder: 'Tên của bạn là',
       isFocus: true,
     },
-    leftIcon: <AntDesign name="meh" color={rootColor.primaryColor} size={20} />,
+    leftIcon: <AntDesign name="meh" color={rootColor.whiteColor} size={20} />,
   },
   {
     label: 'Email',
@@ -40,9 +40,7 @@ const formField = [
     config: {
       placeholder: 'Địa chỉ Email',
     },
-    leftIcon: (
-      <AntDesign name="user" color={rootColor.primaryColor} size={20} />
-    ),
+    leftIcon: <AntDesign name="user" color={rootColor.whiteColor} size={20} />,
   },
   {
     label: 'Mật khẩu',
@@ -53,9 +51,7 @@ const formField = [
       placeholder: 'Mật khẩu',
       isSecure: true,
     },
-    leftIcon: (
-      <AntDesign name="lock" color={rootColor.primaryColor} size={20} />
-    ),
+    leftIcon: <AntDesign name="lock" color={rootColor.whiteColor} size={20} />,
   },
 ];
 
@@ -147,6 +143,7 @@ const SignUpForm = ({showSignInForm}: {showSignInForm: () => void}) => {
                       : setPassword
                   }
                   leftIcon={item.leftIcon}
+                  secureText={item.config.isSecure}
                 />
               </View>
             );

@@ -151,7 +151,7 @@ const CurrentSongScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       {!isTrackPlayerInit ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Loading />

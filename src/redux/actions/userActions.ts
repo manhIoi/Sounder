@@ -1,35 +1,40 @@
+import {AsyncStorage} from 'react-native';
 import rootApi from '../../api';
 import {userType} from '../types';
 
-const login = (email: string, password: string) => async dispatch => {
-  try {
-    const body = await rootApi.login(email, password);
-    if (body?.authToken) {
-      const payload = {
-        ...body.emailAlready,
-        authToken: body.authToken,
-      };
-      //   await AsyncStorage.setItem(
-      //     'user',
-      //     JSON.stringify({...payload, password: password}),
-      //   );
-      return dispatch({
-        type: userType.LOGIN,
-        payload: payload,
-      });
-    } else {
-      return {error: body};
-      // console.log(body);
+const login =
+  (email?: string | null, password?: string | null, authToken?: string) =>
+  async dispatch => {
+    try {
+      let body;
+      if (!authToken) {
+        body = await rootApi.login(email, password);
+      } else {
+        body = await rootApi.login(null, null, authToken);
+      }
+      if (body?.authToken) {
+        const payload = {
+          ...body.emailAlready,
+          authToken: body.authToken,
+        };
+        await AsyncStorage.setItem('authToken', JSON.stringify(body.authToken));
+        return dispatch({
+          type: userType.LOGIN,
+          payload: payload,
+        });
+      } else {
+        return {error: body};
+      }
+    } catch (error) {
+      console.log(error.message);
     }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-const logout = () => {
-  return {
-    type: userType.LOGOUT,
   };
+
+const logout = () => async dispacth => {
+  await AsyncStorage.removeItem('authToken');
+  return dispacth({
+    type: userType.LOGOUT,
+  });
 };
 
 const updateUser =

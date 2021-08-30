@@ -1,8 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
-import {useEffect} from 'react';
-import {Alert} from 'react-native';
+import AnimatedLottieView from 'lottie-react-native';
+import React, {useRef, useEffect} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import MyHeader from '../../components/MyHeader';
@@ -48,13 +47,8 @@ const MyFavoriteScreen = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(setIndex(1));
-  }, [navigation]);
-
   const removeFromFavorite = async (item: SongType) => {
     const res = await dispatch(removeSongFromMyFavorite(user._id, item._id));
-    console.log(typeof res === 'string');
 
     if (typeof res === 'string') {
       dispatch(showAlertAction({title: 'Lỗi', message: res}));
@@ -69,8 +63,8 @@ const MyFavoriteScreen = () => {
   }, [user._id]);
 
   useEffect(() => {
-    console.log(myFavorite);
-  }, [myFavorite]);
+    dispatch(setIndex(1));
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -91,19 +85,28 @@ const MyFavoriteScreen = () => {
       ) : (
         myFavorite._id && (
           <View style={{flex: 1}}>
-            <FlatList
-              data={myFavorite.listSong}
-              keyExtractor={item => item._id}
-              renderItem={({item, index}) => (
-                <SongItem
-                  callbackAction={() => removeFromFavorite(item)}
-                  action="delete"
-                  song={item}
-                  index={index}
-                  handlePress={handlePress}
-                />
-              )}
-            />
+            {myFavorite.listSong.length > 0 ? (
+              <FlatList
+                data={myFavorite.listSong}
+                keyExtractor={item => item._id}
+                renderItem={({item, index}) => (
+                  <SongItem
+                    callbackAction={() => removeFromFavorite(item)}
+                    action="delete"
+                    song={item}
+                    index={index}
+                    handlePress={handlePress}
+                  />
+                )}
+              />
+            ) : (
+              <AnimatedLottieView
+                source={require('../../assets/empty.json')}
+                autoPlay
+                loop
+                speed={0.7}
+              />
+            )}
           </View>
         )
       )}

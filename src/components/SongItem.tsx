@@ -28,6 +28,9 @@ const SongItem = ({
   callbackAction: (song: SongType | number) => void;
   handlePress: (index: number) => void;
 }) => {
+  const handleAction = () => {
+    handlePress(index);
+  };
   return (
     <Swipeable
       useNativeAnimations={true}
@@ -48,7 +51,7 @@ const SongItem = ({
       }}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => handlePress(index)}
+        onPress={handleAction}
         style={styles.container}>
         <Image source={{uri: song.artwork}} style={styles.img} />
         <View style={styles.wrapText}>
