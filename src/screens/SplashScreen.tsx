@@ -16,22 +16,15 @@ const SplashScreen = () => {
       const authToken = await AsyncStorage.getItem('authToken');
       if (authToken) {
         const token = authToken.replace(/"/g, '');
-        console.log(token);
         dispatch(login(null, null, token));
       }
     };
     initApp();
+
     setTimeout(() => {
-      setIsLoadding(false);
+      navigation.replace('MainDrawer');
     }, 2000);
   }, []);
-
-  useEffect(() => {
-    if (!isLoadding) {
-      navigation.navigate('MainDrawer');
-      // fake login
-    }
-  }, [isLoadding]);
 
   return (
     <View

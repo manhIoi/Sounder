@@ -1,5 +1,11 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Text, Animated, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {
+  View,
+  Text,
+  Animated,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import MasonryList from '../../components/MasonryList';
 import styles from './styles';
 import {headerH, spacing} from '../../constants/dimensions';
@@ -11,16 +17,23 @@ import Loading from '../../components/Loading';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux/reducers';
 import rootColor from '../../constants/colors';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import CustomAvatar from '../../components/CustomAvatar';
 import {setIndex} from '../../redux/actions/indexDrawerAction';
 import Avatar from '../../components/Avatar';
+import {showAlertAction} from '../../redux/actions/alertActions';
 
 const HomeScreen = () => {
   const [albums, setAlbums] = useState<AlbumType[]>([]);
   const user = useSelector((state: RootState) => state.user);
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const route = useRoute();
   const isFocused = useIsFocused();
   const scrollY = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
@@ -46,6 +59,27 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getAlbumsData();
+
+    // const backAction = () => {
+    //   console.log(navigation, route);
+
+    //   dispatch(
+    //     showAlertAction({
+    //       title: 'Thông báo',
+    //       message: 'Bạn có muốn thoát ?',
+    //       isConfirm: true,
+    //       callbackConfirm: () => BackHandler.exitApp(),
+    //     }),
+    //   );
+    //   return true;
+    // };
+
+    // const backHandler = BackHandler.addEventListener(
+    //   'hardwareBackPress',
+    //   backAction,
+    // );
+
+    // return () => backHandler.remove();
   }, []);
 
   useEffect(() => {
@@ -53,6 +87,46 @@ const HomeScreen = () => {
       dispatch(setIndex(0));
     }
   }, [isFocused]);
+
+  // useEffect(
+  //   () =>
+  //     navigation.addListener('beforeRemove', e => {
+  //       // Prevent default behavior of leaving the screen
+  //       e.preventDefault();
+
+  //       // Prompt the user before leaving the screen
+  //       dispatch(
+  //         showAlertAction({
+  //           title: 'Thông báo',
+  //           message: 'Bạn có chắc muốn thoát ?',
+  //           isConfirm: true,
+  //           callbackConfirm: () => BackHandler.exitApp(),
+  //         }),
+  //       );
+  //     }),
+  //   [navigation],
+  // );
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        dispatch(
+          showAlertAction({
+            title: 'Thông báo',
+            message: 'Bạn có chắc muốn thoát ?',
+            isConfirm: true,
+            callbackConfirm: () => BackHandler.exitApp(),
+          }),
+        );
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, []),
+  );
 
   return (
     <View style={{flex: 1}}>

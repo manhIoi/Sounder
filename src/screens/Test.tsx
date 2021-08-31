@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
-import {Text, View, StyleSheet, Button, StatusBar} from 'react-native';
+import {useEffect} from 'react';
+import {Text, View, StyleSheet, Button, BackHandler, Alert} from 'react-native';
 import {Transitioning, Transition} from 'react-native-reanimated';
 
 const Test = () => {
@@ -10,6 +11,26 @@ const Test = () => {
       <Transition.In type="fade" />
     </Transition.Sequence>
   );
+
+  const backAction = () => {
+    Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {text: 'YES', onPress: () => BackHandler.exitApp()},
+    ]);
+    return true;
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   let [showText, setShowText] = useState(true);
   const ref = useRef();

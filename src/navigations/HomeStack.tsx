@@ -1,5 +1,5 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -7,11 +7,11 @@ import {
 } from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {useRef} from 'react';
-import {View, Text, Animated} from 'react-native';
-import {Image} from 'react-native-animatable';
+import {View, Text, Animated, BackHandler} from 'react-native';
 import {useSelector} from 'react-redux';
 import PlayerWidget from '../components/PlayerWidget';
 import dimensions, {spacing} from '../constants/dimensions';
+import {showAlertAction} from '../redux/actions/alertActions';
 import {RootState} from '../redux/reducers';
 import CurrentSongScreen from '../screens/CurrentSongScreen/CurrentSongScreen';
 import HomeScreen from '../screens/HomeScreen.tsx/HomeScreen';
@@ -23,7 +23,6 @@ const Stack = createStackNavigator();
 const HomeStack = () => {
   const listTrack = useSelector((state: RootState) => state.listTrack);
   const translateY = useRef(new Animated.Value(dimensions.h)).current;
-  const navigation = useNavigation<StackNavigationProp<any>>();
 
   useEffect(() => {
     Animated.timing(translateY, {

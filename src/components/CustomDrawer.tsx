@@ -38,11 +38,11 @@ const listDrawerItem = [
     label: 'Tài khoản',
     icon: (color: string) => <Feather name="user" size={20} color={color} />,
   },
-  // {
-  //   name: 'TestScreen',
-  //   label: 'TestScreen',
-  //   icon: (color: string) => <Feather name="user" size={20} color={color} />,
-  // },
+  {
+    name: 'TestScreen',
+    label: 'TestScreen',
+    icon: (color: string) => <Feather name="user" size={20} color={color} />,
+  },
 ];
 
 const CustomDrawer = ({closeDrawer}: {closeDrawer: () => void}) => {

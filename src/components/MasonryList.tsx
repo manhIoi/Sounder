@@ -38,8 +38,8 @@ const MasonryList = ({albums}: {albums: AlbumType[]}) => {
       renderItem={(item: any, index: number) => (
         <Animatable.View
           animation="fadeInUp"
-          duration={500}
-          delay={index * 100}>
+          duration={1000}
+          delay={index * 1000}>
           <TouchableScale
             onPress={() =>
               navigation.navigate('ListSongScreen', {album: item.album})
