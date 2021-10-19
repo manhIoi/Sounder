@@ -1,17 +1,13 @@
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
-  StackNavigationProp,
 } from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {useRef} from 'react';
-import {View, Text, Animated, BackHandler} from 'react-native';
+import {View, Animated} from 'react-native';
 import {useSelector} from 'react-redux';
 import PlayerWidget from '../components/PlayerWidget';
-import dimensions, {spacing} from '../constants/dimensions';
-import {showAlertAction} from '../redux/actions/alertActions';
+import dimensions from '../constants/dimensions';
 import {RootState} from '../redux/reducers';
 import CurrentSongScreen from '../screens/CurrentSongScreen/CurrentSongScreen';
 import HomeScreen from '../screens/HomeScreen.tsx/HomeScreen';

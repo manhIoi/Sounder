@@ -69,8 +69,10 @@ const SettingScreen = () => {
     })
       .then(res => res.json())
       .then(async data => {
+        const imageData = data.url.replace('http', 'https');
+
         const body = await dispatch(
-          updateUser(user._id, {image: data.url}, user.authToken),
+          updateUser(user._id, {image: imageData}, user.authToken),
         );
 
         if (body.type) {

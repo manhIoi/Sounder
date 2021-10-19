@@ -1,5 +1,4 @@
 import {
-  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItem,
   DrawerNavigationProp,
@@ -19,8 +18,6 @@ import {setListTrack} from '../redux/actions/listTrackAction';
 import {logout} from '../redux/actions/userActions';
 import {showAlertAction} from '../redux/actions/alertActions';
 import Avatar from './Avatar';
-import {Transition, Transitioning} from 'react-native-reanimated';
-import {useRef} from 'react';
 
 const listDrawerItem = [
   {
@@ -36,11 +33,6 @@ const listDrawerItem = [
   {
     name: 'AccountStack',
     label: 'Tài khoản',
-    icon: (color: string) => <Feather name="user" size={20} color={color} />,
-  },
-  {
-    name: 'TestScreen',
-    label: 'TestScreen',
     icon: (color: string) => <Feather name="user" size={20} color={color} />,
   },
 ];

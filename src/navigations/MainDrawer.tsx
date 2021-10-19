@@ -1,9 +1,7 @@
 import React from 'react';
-import {View, Text, Animated} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
-  useDrawerProgress,
 } from '@react-navigation/drawer';
 import StackDrawer from './StackDrawer';
 import {useState} from 'react';

@@ -1,15 +1,11 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, Animated} from 'react-native';
+import {Animated} from 'react-native';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import ListSongScreen from '../screens/ListSongScreen/ListSongScreen';
 import HomeStack from './HomeStack';
-import MyTab from './MyTab';
-import MyFavoriteScreen from '../screens/MyFavoriteScreen/MyFavoriteScreen';
 import AccountStack from './AccountStack';
-import Test from '../screens/Test';
 
 const Stack = createStackNavigator();
 
@@ -62,7 +58,6 @@ const StackDrawer = ({isOpen}: {isOpen: boolean}) => {
         }}>
         <Stack.Screen name="HomeStack" component={HomeStack} />
         <Stack.Screen name="AccountStack" component={AccountStack} />
-        <Stack.Screen name="TestScreen" component={Test} />
       </Stack.Navigator>
     </Animated.View>
   );
