@@ -5,8 +5,9 @@ Sounder is mobile app music player free. Build with ReactNative, Typescript
 ## Technologies:
 
 FrontEnd: ReactNative, Typescript
+<br />
 BackEnd: NodeJs, MongoDB
-[Link to Backend repo👈] (https://github.com/manhloi5501/music-app-server)
+[Link to Backend repo👈](https://github.com/manhloi5501/music-app-server)
 
 ## Some image example:
 
